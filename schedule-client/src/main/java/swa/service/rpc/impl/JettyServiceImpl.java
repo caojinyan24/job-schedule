@@ -11,9 +11,9 @@ import swa.service.rpc.RpcService;
  */
 public class JettyServiceImpl implements RpcService {
     private static final Logger logger = LoggerFactory.getLogger(JettyServiceImpl.class);
-
+    private static final Server server;
     static {
-        Server server = new Server(8090);//// TODO: 10/16/17 从xml配置文件中解析
+         server = new Server(8090);//// TODO: 10/16/17 从xml配置文件中解析
         server.setHandler(new JobScheduleHandler());
         try {
             server.join();
@@ -24,6 +24,6 @@ public class JettyServiceImpl implements RpcService {
     }
 
     public String remoteRequest(String param, String ipAddr) {
-        return null;
+
     }
 }

@@ -56,6 +56,14 @@
                 <artifactId>jetty-all</artifactId>
                 <version>9.4.7.v20170914</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.39</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
