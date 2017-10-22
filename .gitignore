@@ -67,3 +67,4 @@ buildNumber.properties
 .idea/
 *.iml
 
+/schedule-web/schedule-web.iml

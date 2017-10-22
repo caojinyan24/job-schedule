@@ -6,6 +6,13 @@ package swa.job.schedule.dto;
 public class ScheduleResponse {
     private Boolean isSuccess;
 
+    public ScheduleResponse() {
+    }
+
+    public ScheduleResponse(Boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
+
     public Boolean getSuccess() {
         return isSuccess;
     }

@@ -7,4 +7,7 @@ import swa.job.schedule.dto.ScheduleResponse;
  */
 public interface ScheduleService {
     ScheduleResponse schedule(String jobName, String ipAddr);
+
+
+
 }

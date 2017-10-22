@@ -1,0 +1,12 @@
+http2.0,http1.1
+怎么做进程间通信
+
+netty的handler用来不同的协议处理数据，其中ChannelInBoundHanlder接收信息，并可返回响应，用来处理业务逻辑
+ChannelInitiallizer用来添加ChannelHandler的实现到ChannelPipeline,ChannelInitaillizer本身也是一个Handler，当添加一个Handler到pipeline之后，这个ChannelInitial会自动移除
+ChannelPipeLine，EventLoop，EventLoopGroup：事件和事件处理。channle处理socket连接，eventloop处理io，可以看做为一个channel处理工作的线程
+channelfulter用来注册一个Listener，用来处理操作结果的回调
+
+inboundHandler和outboundHandler
+encoder：将请求的对象转换为字节码。decoder将字节码转换为对象
+
+？？为什么添加的encoder和decoder没有调到（添加Handler的时候要先加Decoder和encoder，最后加业务Handler）；若server无法接收到请求，检查client发送请求的格式和encoder，decoder的实现（网络传输只能传输字节码）
