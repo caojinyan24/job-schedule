@@ -28,7 +28,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             List<JobContext> jobContexts = JSON.parseArray(jobStr, JobContext.class);
             if (!CollectionUtils.isEmpty(jobContexts)) {
-                jobMapper.insertJobInfo(jobContexts);
+                jobMapper.insertJobs(jobContexts);
                 return "success";
             } else {
                 return "innvalid msg";

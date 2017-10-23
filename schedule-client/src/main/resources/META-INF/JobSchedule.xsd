@@ -4,7 +4,7 @@
             targetNamespace="http://localhost/schema/JobSchedule"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
-    <xsd:element name="JobSchedule">
+    <xsd:element name="config">
         <xsd:annotation>
             <xsd:documentation>本地开放端口</xsd:documentation>
         </xsd:annotation>

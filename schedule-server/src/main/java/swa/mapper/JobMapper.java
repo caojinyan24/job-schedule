@@ -1,6 +1,7 @@
 package swa.mapper;
 
 
+import org.apache.ibatis.annotations.Param;
 import swa.job.common.entity.Job;
 import swa.spring.JobContext;
 
@@ -11,8 +12,9 @@ import java.util.List;
  */
 public interface JobMapper {
     JobContext selectByJobName(String jobName);
-    void insertJobScheduleHistory(String jobName,Boolean executeStatus);
-    void insertJobInfo(List<JobContext> jobContext);
+
+    void insertJobs(@Param("jobs") List<JobContext> jobs);
+
     public void add(Job job);
 
     public void update(Job job);

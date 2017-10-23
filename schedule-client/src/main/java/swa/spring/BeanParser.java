@@ -20,7 +20,7 @@ public class BeanParser implements BeanPostProcessor {
                 jobContext.setAddress("");// TODO: 10/23/17 获取本机ip地址
                 jobContext.setBeanName(beanName);
                 jobContext.setMethodName(method.getName());
-                jobContext.setCronParam(method.getAnnotation(JobSchedule.class).scheduleCron());
+                jobContext.setJobName(method.getAnnotation(JobSchedule.class).jobName());
                 try {
                     new Client("127.0.0.1", 8087, JSON.toJSONString(jobContext)).start();
                 } catch (InterruptedException e) {

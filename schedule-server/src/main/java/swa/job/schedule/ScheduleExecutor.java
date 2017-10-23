@@ -3,9 +3,11 @@ package swa.job.schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import swa.job.rpc.Client;
 import swa.job.common.CronParserService;
+import swa.job.common.entity.ScheduleHistory;
+import swa.job.rpc.Client;
 import swa.mapper.JobMapper;
+import swa.mapper.ScheduleHistoryMapper;
 import swa.spring.JobContext;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +31,7 @@ public class ScheduleExecutor {
     @Resource
     private CronParserService cronParserService;
     @Resource
-    private ScheduleService scheduleService;
+    private ScheduleHistoryMapper scheduleHistoryMapper;
 
     private LinkedBlockingDeque<String> jobList = new LinkedBlockingDeque<String>();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
@@ -66,7 +68,7 @@ public class ScheduleExecutor {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                jobMapper.insertJobScheduleHistory(jobName, Boolean.TRUE);// TODO: 10/23/17 获取请求结果
+                scheduleHistoryMapper.add(new ScheduleHistory(jobName, 2));// TODO: 10/23/17 获取请求结果
                 jobContexts.add(currentjob);
             }
         }, getDelayedTime(nextScheduleTime), TimeUnit.SECONDS);
