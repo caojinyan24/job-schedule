@@ -1,0 +1,44 @@
+<div  class="col-md-10" style="width:100%">
+	<div class="panel panel-default minHeight">
+	  	<div class="panel-heading">查看详情</div>
+	  	<div class="panel-body">
+	   		<form class="form-horizontal" role="form">
+				  <fieldset disabled>
+				  							 <div class="form-group mno">
+							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">应用名</label>
+							    <div class="col-sm-2">
+							      <input type="text" value="$!{application.appName}" name="appName" id="appName" class="form-control" />
+							    </div>
+							  </div>
+							 <div class="form-group mno">
+							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">服务器地址</label>
+							    <div class="col-sm-2">
+							      <input type="text" value="$!{application.address}" name="address" id="address" class="form-control" />
+							    </div>
+							  </div>
+							  <div class="form-group mno">
+							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">创建时间</label>
+							    <div class="col-sm-2">
+							      <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{application.createTime})" name="createTime" id="createTime" class="form-control" />
+							    </div>
+							  </div>
+							  <div class="form-group mno">
+							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">更新时间</label>
+							    <div class="col-sm-2">
+							      <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{application.updateTime})" name="updateTime" id="updateTime" class="form-control" />
+							    </div>
+							  </div>
+				  </fieldset>
+				  <div class="form-group">
+				  		<span class="col-sm-1"></span>
+				  		 <a href="#" class="btn btn-primary" id="returnButton" role="button">返回</a>
+				  </div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	 $("#returnButton").bind("click",function(){
+		history.go(-1);
+	});
+</script>

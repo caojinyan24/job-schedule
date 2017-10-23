@@ -8,16 +8,16 @@ CREATE TABLE `job` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_idx_job_name` (`job_name`)
+  UNIQUE KEY `uniq_job_name` (`job_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务表';
 CREATE TABLE `application` (
   `id` bigint(24) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `application_name` varchar(32) NOT NULL DEFAULT '' COMMENT '应用名',
+  `app_name` varchar(32) NOT NULL DEFAULT '' COMMENT '应用名',
   `address` varchar(256) NOT NULL DEFAULT '' COMMENT '服务器地址',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_idx_application_name` (`application_name`)
+  UNIQUE KEY `uniq_app_name` (`app_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='应用表';
 CREATE TABLE `schedule_history` (
   `id` bigint(24) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
@@ -29,5 +29,5 @@ CREATE TABLE `schedule_history` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_idx_application_name` (`application_name`)
+  UNIQUE KEY `uniq_job_name` (`job_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='调度历史';

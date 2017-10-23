@@ -14,6 +14,11 @@
                     <xsd:documentation>本地接收调度请求开放的端口</xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="appName" type="xsd:string" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>本应用名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
