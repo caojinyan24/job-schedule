@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
  * Created by jinyan on 10/11/17 9:53 PM.
  */
 public class BeanParser implements BeanPostProcessor {
+
     @Nullable
     public Object postProcessAfterInitialization(Object bean, String beanName) {
         Method[] methods = bean.getClass().getMethods();

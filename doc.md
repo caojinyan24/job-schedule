@@ -11,6 +11,9 @@ encoder：将请求的对象转换为字节码。decoder将字节码转换为对
 
 ？？为什么添加的encoder和decoder没有调到（添加Handler的时候要先加Decoder和encoder，最后加业务Handler）；若server无法接收到请求，检查client发送请求的格式和encoder，decoder的实现（网络传输只能传输字节码）
 
+The matching wildcard is strict, but no declaration can be found
+添加注解的问题
+
 
 todo
 添加mybatis相关配置
