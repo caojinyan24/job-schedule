@@ -7,31 +7,22 @@
 
 
 
-    <xsd:import namespace="http://www.springframework.org/schema/tool" schemaLocation="http://www.springframework.org/schema/tool/spring-tool-3.2.xsd"/>
-
-
     <xsd:element name="config">
         <xsd:annotation>
             <xsd:documentation>本地开放端口</xsd:documentation>
         </xsd:annotation>
-        <!--<xsd:complexType>-->
-            <!--<xsd:attribute name="port" type="xsd:string" use="optional">-->
-                <!--<xsd:annotation>-->
-                    <!--<xsd:documentation>本地接收调度请求开放的端口</xsd:documentation>-->
-                <!--</xsd:annotation>-->
-            <!--</xsd:attribute>-->
-            <!--<xsd:attribute name="appName" type="xsd:string" use="required">-->
-                <!--<xsd:annotation>-->
-                    <!--<xsd:documentation>本应用名称</xsd:documentation>-->
-                <!--</xsd:annotation>-->
-            <!--</xsd:attribute>-->
-        <!--</xsd:complexType>-->
+        <xsd:complexType>
+            <xsd:attribute name="port" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>本地接收调度请求开放的端口</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="appName" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>本应用名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
     </xsd:element>
 
-
-    <!--<xsd:element name="annotation-driven">-->
-        <!--<xsd:annotation>-->
-            <!--<xsd:documentation><![CDATA[ .. ]]></xsd:documentation>-->
-        <!--</xsd:annotation>-->
-    <!--</xsd:element>-->
 </xsd:schema>
