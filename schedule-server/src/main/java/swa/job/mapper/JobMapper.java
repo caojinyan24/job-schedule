@@ -1,17 +1,19 @@
-package swa.mapper;
+package swa.job.mapper;
 
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import swa.job.common.entity.Job;
-import swa.spring.JobContext;
+import swa.job.common.entity.JobContext;
 
 import java.util.List;
 
 /**
  * Created by jinyan on 10/20/17 3:57 PM.
  */
+@Repository
 public interface JobMapper {
-    JobContext selectByJobName(String jobName);
+    JobContext selectByJobName(@Param("jobName") String jobName);
 
     void insertJobs(@Param("jobs") List<JobContext> jobs);
 

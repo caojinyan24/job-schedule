@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import swa.mapper.JobMapper;
-import swa.spring.JobContext;
+import swa.job.common.entity.JobContext;
+import swa.job.mapper.JobMapper;
 
 import javax.annotation.Resource;
 import java.util.List;

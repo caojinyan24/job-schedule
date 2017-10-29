@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package swa.job.rpc;
+package swa.rpc;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -23,9 +23,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import swa.job.common.DataDecoder;
+import swa.job.common.DataEncoder;
 import swa.job.registry.JobInfoReceiver;
-import swa.rpc.DataDecoder;
-import swa.rpc.DataEncoder;
 
 
 /**
@@ -42,6 +42,14 @@ public final class Server {
     public Server(String host, int port) {
         this.host = host;
         this.port = port;
+    }
+
+    public static void main(String[] args) {
+        try {
+            new Server("127.0.0.1", 8087).start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() throws InterruptedException {
@@ -62,14 +70,6 @@ public final class Server {
             f.channel().closeFuture().sync();
         } finally {
             group.shutdownGracefully().sync();
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            new Server("127.0.0.1", 8087).start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

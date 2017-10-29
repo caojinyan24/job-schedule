@@ -1,62 +1,69 @@
-<div  class="col-md-10" style="width:100%">
-	<div class="panel panel-default minHeight">
-	  	<div class="panel-heading">查看详情</div>
-	  	<div class="panel-body">
-	   		<form class="form-horizontal" role="form">
-				  <fieldset disabled>
-				  							 <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">任务名</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!{scheduleHistory.jobName}" name="jobName" id="jobName" class="form-control" />
-							    </div>
-							  </div>
-							 <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">调度地址</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!{scheduleHistory.scheduleAddress}" name="scheduleAddress" id="scheduleAddress" class="form-control" />
-							    </div>
-							  </div>
-							 <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">调度参数</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!{scheduleHistory.scheduleParam}" name="scheduleParam" id="scheduleParam" class="form-control" />
-							    </div>
-							  </div>
-							 <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">执行时间</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!{scheduleHistory.executeTime}" name="executeTime" id="executeTime" class="form-control" />
-							    </div>
-							  </div>
-							 <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">执行状态：0-未执行，1-失败，2-成功</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!{scheduleHistory.executeStatus}" name="executeStatus" id="executeStatus" class="form-control" />
-							    </div>
-							  </div>
-							  <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">创建时间</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{scheduleHistory.createTime})" name="createTime" id="createTime" class="form-control" />
-							    </div>
-							  </div>
-							  <div class="form-group mno">
-							    <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">更新时间</label>
-							    <div class="col-sm-2">
-							      <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{scheduleHistory.updateTime})" name="updateTime" id="updateTime" class="form-control" />
-							    </div>
-							  </div>
-				  </fieldset>
-				  <div class="form-group">
-				  		<span class="col-sm-1"></span>
-				  		 <a href="#" class="btn btn-primary" id="returnButton" role="button">返回</a>
-				  </div>
-			</form>
-		</div>
-	</div>
+<div class="col-md-10" style="width:100%">
+    <div class="panel panel-default minHeight">
+        <div class="panel-heading">查看详情</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form">
+                <fieldset disabled>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">任务名</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!{scheduleHistory.jobName}" name="jobName" id="jobName"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">调度地址</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!{scheduleHistory.scheduleAddress}" name="scheduleAddress"
+                                   id="scheduleAddress" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">调度参数</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!{scheduleHistory.scheduleParam}" name="scheduleParam"
+                                   id="scheduleParam" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">执行时间</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!{scheduleHistory.executeTime}" name="executeTime"
+                                   id="executeTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">执行状态：0-未执行，1-失败，2-成功</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!{scheduleHistory.executeStatus}" name="executeStatus"
+                                   id="executeStatus" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">创建时间</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{scheduleHistory.createTime})"
+                                   name="createTime" id="createTime" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group mno">
+                        <label for="inputEmail3" class="col-sm-1 control-label" style="text-align:left;">更新时间</label>
+                        <div class="col-sm-2">
+                            <input type="text" value="$!dateTool.format("yyyy-MM-dd",$!{scheduleHistory.updateTime})"
+                                   name="updateTime" id="updateTime" class="form-control"/>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <span class="col-sm-1"></span>
+                    <a href="#" class="btn btn-primary" id="returnButton" role="button">返回</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-	 $("#returnButton").bind("click",function(){
-		history.go(-1);
-	});
+    $("#returnButton").bind("click", function () {
+        history.go(-1);
+    });
 </script>

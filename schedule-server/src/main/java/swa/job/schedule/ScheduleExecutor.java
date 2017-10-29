@@ -2,13 +2,13 @@ package swa.job.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import swa.job.common.CronParserService;
+import swa.job.common.entity.JobContext;
 import swa.job.common.entity.ScheduleHistory;
-import swa.job.rpc.Client;
-import swa.mapper.JobMapper;
-import swa.mapper.ScheduleHistoryMapper;
-import swa.spring.JobContext;
+import swa.job.mapper.JobMapper;
+import swa.job.mapper.ScheduleHistoryMapper;
+import swa.rpc.Client;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * 任务调度的核心类
  * Created by jinyan on 10/20/17 3:42 PM.
  */
-@Component
+@Service
 public class ScheduleExecutor {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleExecutor.class);
 

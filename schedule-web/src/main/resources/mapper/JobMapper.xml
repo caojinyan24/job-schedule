@@ -1,8 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="manage.dao.AccountMapper">
-    <select id="selectByJobName" resultType="java.lang.Integer">
-        select count(*) from account
-        where user_name=#{userName} and password=#{password}
+<mapper namespace="swa.job.mapper.JobMapper">
+    <!-- 查询条件 -->
+    <sql id="wherecontation">
+        <trim suffixOverrides=",">
+            <if test="query.jobName != null and query.jobName != ''">
+                AND j.job_name = #{query.jobName}
+            </if>
+            <if test="query.appName != null and query.appName != ''">
+                AND j.app_name = #{query.appName}
+            </if>
+            <if test="query.beanName != null and query.beanName != ''">
+                AND j.bean_name = #{query.beanName}
+            </if>
+            <if test="query.methodName != null and query.methodName != ''">
+                AND j.method_name = #{query.methodName}
+            </if>
+            <if test="query.cronParam != null and query.cronParam != ''">
+                AND j.cron_param = #{query.cronParam}
+            </if>
+            <if test="query.createTime != null and query.createTime != ''">
+                AND j.create_time = #{query.createTime}
+            </if>
+            <if test="query.updateTime != null and query.updateTime != ''">
+                AND j.update_time = #{query.updateTime}
+            </if>
+        </trim>
+    </sql>
+
+    <!--
+	方法名称: insert
+	调用路径: Job.insert
+	-->
+    <insert id="insertJobs" parameterType="swa.job.common.entity.JobContext">
+        INSERT INTO job /* 任务表 */
+        (
+        job_name
+        ,app_name
+        ,bean_name
+        ,method_name
+        ,cron_param
+        ,create_time
+        ,update_time
+        )
+        values
+        <foreach collection="jobs" item="item" separator=",">
+            (
+            #{item.jobName}
+            ,#{item.appName}
+            ,#{item.beanName}
+            ,#{item.methodName}
+            ,#{item.cronParam}
+            ,#{item.createTime}
+            ,#{item.updateTime}
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!--
+	方法名称: update
+	调用路径: Job.update
+	-->
+    <update id="update" parameterType="Object">
+        UPDATE job /* 任务表 */
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobName != null">
+                job_name = #{jobName},
+            </if>
+            <if test="appName != null">
+                app_name = #{appName},
+            </if>
+            <if test="beanName != null">
+                bean_name = #{beanName},
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName},
+            </if>
+            <if test="cronParam != null">
+                cron_param = #{cronParam},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+
+
+    <select id="selectByJobName" parameterType="java.lang.String" resultType="swa.job.common.entity.JobContext">
+        SELECT
+        ,j.job_name                AS     jobName
+        ,j.app_name                AS     appName
+        ,j.bean_name               AS     beanName
+        ,j.method_name             AS     methodName
+        ,j.cron_param              AS     cronParam
+        ,j.create_time             AS     createTime
+        ,j.update_time             AS     updateTime
+        FROM   job AS j
+        WHERE
+        j.job_name = #{jobName}
+    </select>
+
+
+    <!--
+	方法名称: queryPagenationList
+	调用路径: Job.queryPagenationList
+	-->
+    <select id="queryPagenationList" parameterType="Object" resultType="swa.job.common.entity.Job">
+        SELECT
+        j.id AS id
+        ,j.job_name AS jobName
+        ,j.app_name AS appName
+        ,j.bean_name AS beanName
+        ,j.method_name AS methodName
+        ,j.cron_param AS cronParam
+        ,j.create_time AS createTime
+        ,j.update_time AS updateTime
+        FROM job AS j
+        WHERE 1=1
+        <include refid="wherecontation"/>
+        ORDER BY j.id DESC
+        LIMIT #{startRow}
+        ,#{pageSize}
     </select>
 </mapper>

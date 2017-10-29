@@ -1,13 +1,15 @@
-package swa.mapper;
+package swa.job.mapper;
 
 
+import org.springframework.stereotype.Repository;
 import swa.job.common.entity.Application;
 
 /**
-* ApplicationMapper
-* Created by jinyan.cao on 2017-10-23 18:37:54
-*/
-public interface ApplicationMapper{
+ * ApplicationMapper
+ * Created by jinyan.cao on 2017-10-23 18:37:54
+ */
+@Repository
+public interface ApplicationMapper {
 
     public void add(Application application);
 

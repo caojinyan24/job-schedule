@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="Application">
+<mapper namespace="swa.job.mapper.ApplicationMapper">
 
     <!-- 查询条件 -->
     <sql id="wherecontation">
         <trim suffixOverrides=",">
-                <if test="query.appName != null and query.appName != ''">
-                    AND a.app_name =  #{query.appName}
-                </if>
-                <if test="query.address != null and query.address != ''">
-                    AND a.address =  #{query.address}
-                </if>
-                <if test="query.createTime != null and query.createTime != ''">
-                    AND a.create_time =  #{query.createTime}
-                </if>
-                <if test="query.updateTime != null and query.updateTime != ''">
-                    AND a.update_time =  #{query.updateTime}
-                </if>
+            <if test="query.appName != null and query.appName != ''">
+                AND a.app_name = #{query.appName}
+            </if>
+            <if test="query.address != null and query.address != ''">
+                AND a.address = #{query.address}
+            </if>
+            <if test="query.createTime != null and query.createTime != ''">
+                AND a.create_time = #{query.createTime}
+            </if>
+            <if test="query.updateTime != null and query.updateTime != ''">
+                AND a.update_time = #{query.updateTime}
+            </if>
         </trim>
     </sql>
 
@@ -48,21 +48,21 @@
 	方法名称: update
 	调用路径: Application.update
 	-->
-    <update id="update" parameterType="Object">
-        UPDATE   application /* 应用表 */
+    <update id="update" parameterType="swa.job.common.entity.Application">
+        UPDATE application /* 应用表 */
         <trim prefix="SET" suffixOverrides=",">
-                <if test="appName != null">
+            <if test="appName != null">
                 app_name = #{appName},
-                </if>
-                <if test="address != null">
+            </if>
+            <if test="address != null">
                 address = #{address},
-                </if>
-                <if test="createTime != null">
+            </if>
+            <if test="createTime != null">
                 create_time = #{createTime},
-                </if>
-                <if test="updateTime != null">
+            </if>
+            <if test="updateTime != null">
                 update_time = #{updateTime},
-                </if>
+            </if>
         </trim>
         WHERE
         id = #{id}
@@ -70,10 +70,10 @@
 
     <!--
 	方法名称: get
-	调用路径: Application.get
+	调用路径: swa.mapper.Application.get
 	处理信息: 根据主键查询记录
 	-->
-    <select id="get" parameterType="Object" resultType="Application">
+    <select id="get" parameterType="Object" resultType="swa.job.common.entity.Application">
         SELECT
          a.id                      AS   id
          ,a.app_name                AS     appName                
@@ -101,7 +101,7 @@
 	调用路径: Application.queryItemCount
 	-->
     <select id="queryItemCount" resultType="java.lang.Integer" parameterType="Object">
-        SELECT count(*) FROM  application AS a
+        SELECT count(*) FROM application AS a
         WHERE 1=1
         <include refid="wherecontation"/>
     </select>
@@ -110,18 +110,18 @@
 	方法名称: queryPagenationList
 	调用路径: Application.queryPagenationList
 	-->
-    <select id="queryPagenationList" parameterType="Object" resultType="Application">
+    <select id="queryPagenationList" parameterType="Object" resultType="swa.job.common.entity.Application">
         SELECT
-          a.id                      AS     id                     
-         ,a.app_name                AS     appName                
-         ,a.address                 AS     address                
-         ,a.create_time             AS     createTime             
-         ,a.update_time             AS     updateTime             
-        FROM     application AS a
+        a.id AS id
+        ,a.app_name AS appName
+        ,a.address AS address
+        ,a.create_time AS createTime
+        ,a.update_time AS updateTime
+        FROM application AS a
         WHERE 1=1
         <include refid="wherecontation"/>
-        ORDER BY    a.id DESC
-        LIMIT  #{startRow}
+        ORDER BY a.id DESC
+        LIMIT #{startRow}
         ,#{pageSize}
     </select>
 

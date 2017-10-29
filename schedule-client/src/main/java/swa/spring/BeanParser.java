@@ -1,9 +1,10 @@
 package swa.spring;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.lang.Nullable;
 import swa.rpc.Client;
+import swa.rpc.JobContext;
 
 import java.lang.reflect.Method;
 
@@ -12,7 +13,10 @@ import java.lang.reflect.Method;
  */
 public class BeanParser implements BeanPostProcessor {
 
-    @Nullable
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+
     public Object postProcessAfterInitialization(Object bean, String beanName) {
         Method[] methods = bean.getClass().getMethods();
         for (Method method : methods) {

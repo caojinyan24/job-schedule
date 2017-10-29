@@ -3,7 +3,7 @@ package swa.job.common;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import swa.spring.JobContext;
+import swa.job.common.entity.JobContext;
 
 import java.util.List;
 

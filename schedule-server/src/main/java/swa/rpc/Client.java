@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package swa.job.rpc;
+package swa.rpc;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -24,9 +24,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import swa.job.common.DataDecoder;
+import swa.job.common.DataEncoder;
 import swa.job.schedule.JobScheduleInvoker;
-import swa.rpc.DataDecoder;
-import swa.rpc.DataEncoder;
 
 
 /**
@@ -36,18 +36,24 @@ import swa.rpc.DataEncoder;
  * the server.
  */
 public class Client {
-    private static final Logger logger = LoggerFactory.getLogger(Client.class);
-
     static final int SIZE = Integer.parseInt(System.getProperty("size", "256"));
+    private static final Logger logger = LoggerFactory.getLogger(Client.class);
     private Channel channel;
     private String host;
     private int port;
     private String jobInfo;
 
-    public Client(String host, int port,String jobInfo) {
+    public Client(String host, int port, String jobInfo) {
         this.host = host;
         this.port = port;
-        this.jobInfo=jobInfo;
+        this.jobInfo = jobInfo;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("127.0.0.1", 8080, "jobInfo");
+        client.start();
+
+
     }
 
     public void start() throws InterruptedException {
@@ -74,13 +80,6 @@ public class Client {
             // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("127.0.0.1", 8080,"jobInfo");
-        client.start();
-
-
     }
 
 }

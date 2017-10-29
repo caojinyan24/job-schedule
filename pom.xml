@@ -42,19 +42,29 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>3.2.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>3.2.8.RELEASE</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>3.2.8.RELEASE</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
-                <version>5.0.0.RELEASE</version>
+                <version>3.2.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>3.2.8.RELEASE</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
             <dependency>
@@ -99,6 +109,21 @@
                 <artifactId>mybatis</artifactId>
                 <version>3.4.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>3.2.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.8.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.8.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -115,104 +140,6 @@
             </build>
         </profile>
     </profiles>
-
-    <!--<build>-->
-
-        <!--<pluginManagement>-->
-
-            <!--<plugins>-->
-
-                <!--&lt;!&ndash;<plugin>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<artifactId>maven-enforcer-plugin</artifactId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<version>1.4</version>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<dependencies>&ndash;&gt;-->
-                        <!--&lt;!&ndash;&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.maven.enforcer/enforcer-rules &ndash;&gt;&ndash;&gt;-->
-                        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<groupId>org.apache.maven.enforcer</groupId>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<artifactId>enforcer-rules</artifactId>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<version>1.4</version>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</dependencies>&ndash;&gt;-->
-                <!--&lt;!&ndash;</plugin>&ndash;&gt;-->
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-jar-plugin</artifactId>-->
-                    <!--<version>3.0.2</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-war-plugin</artifactId>-->
-                    <!--<version>3.2.0</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-install-plugin</artifactId>-->
-                    <!--<version>2.3.1</version>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                    <!--<version>3.7.0</version>-->
-                    <!--<configuration>-->
-                        <!--<source>1.8.0</source>-->
-                        <!--<target>1.8.0</target>-->
-                        <!--<encoding>UTF-8</encoding>-->
-                        <!--<compilerArgs>-->
-                            <!--<arg>-J-Duser.country=US</arg>-->
-                            <!--<arg>-version</arg>-->
-                        <!--</compilerArgs>-->
-                        <!--<debug>true</debug>-->
-                        <!--<fork>true</fork>-->
-
-                    <!--</configuration>-->
-                <!--</plugin>-->
-
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-source-plugin</artifactId>-->
-                    <!--<version>3.0.1</version>-->
-                    <!--<executions>-->
-                        <!--<execution>-->
-                            <!--<id>attach-sources</id>-->
-                            <!--<goals>-->
-                                <!--<goal>jar-no-fork</goal>-->
-                            <!--</goals>-->
-                        <!--</execution>-->
-                    <!--</executions>-->
-                    <!--<configuration>-->
-                        <!--<attach>true</attach>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-
-            <!--</plugins>-->
-
-        <!--</pluginManagement>-->
-
-        <!--<plugins>-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-jar-plugin</artifactId>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--</plugin>-->
-            <!--&lt;!&ndash;<plugin>&ndash;&gt;-->
-            <!--&lt;!&ndash;<groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<artifactId>maven-install-plugin</artifactId>&ndash;&gt;-->
-            <!--&lt;!&ndash;<version>2.3.1</version>&ndash;&gt;-->
-            <!--&lt;!&ndash;</plugin>&ndash;&gt;-->
-        <!--</plugins>-->
-
-
-    <!--</build>-->
 
 
 </project>

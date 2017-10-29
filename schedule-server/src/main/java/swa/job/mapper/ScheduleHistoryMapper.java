@@ -1,13 +1,15 @@
-package swa.mapper;
+package swa.job.mapper;
 
 
+import org.springframework.stereotype.Repository;
 import swa.job.common.entity.ScheduleHistory;
 
 /**
-* ScheduleHistoryMapper
-* Created by jinyan.cao on 2017-10-23 18:37:55
-*/
-public interface ScheduleHistoryMapper{
+ * ScheduleHistoryMapper
+ * Created by jinyan.cao on 2017-10-23 18:37:55
+ */
+@Repository
+public interface ScheduleHistoryMapper {
 
     public void add(ScheduleHistory scheduleHistory);
 

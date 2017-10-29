@@ -1,4 +1,4 @@
-package swa.spring;
+package swa.rpc;
 
 /**
  * Created by jinyan on 10/20/17 2:20 PM.

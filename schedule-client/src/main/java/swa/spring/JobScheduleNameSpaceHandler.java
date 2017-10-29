@@ -14,5 +14,8 @@ public class JobScheduleNameSpaceHandler extends NamespaceHandlerSupport {
     public void init() {
         logger.info("do inti-------------------------------");
         registerBeanDefinitionParser("config", new JobScheduleBeanDefinitionParser());
+
     }
+
+
 }

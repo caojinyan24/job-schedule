@@ -31,7 +31,7 @@ public class JobInfoSender extends ChannelInboundHandlerAdapter {
      * Creates a client-side handler.
      */
     public JobInfoSender(String jobInfo) {
-        this.jobInfo=jobInfo;
+        this.jobInfo = jobInfo;
     }
 
     @Override
