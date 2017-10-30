@@ -13,8 +13,6 @@ public class JobScheduleNameSpaceHandler extends NamespaceHandlerSupport {
 
     public void init() {
         registerBeanDefinitionParser("config", new JobScheduleBeanDefinitionParser());
-
-
     }
 
 

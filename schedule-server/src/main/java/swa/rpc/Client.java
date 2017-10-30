@@ -15,7 +15,6 @@
  */
 package swa.rpc;
 
-import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -27,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import swa.job.common.DataDecoder;
 import swa.job.common.DataEncoder;
-import swa.job.common.entity.JobContext;
 import swa.job.schedule.JobScheduleInvoker;
 
 
@@ -51,16 +49,7 @@ public class Client {
         this.jobInfo = jobInfo;
     }
 
-    public static void main(String[] args) throws Exception {
-        JobContext jobContext = new JobContext();
-        jobContext.setBeanName("dataLoaderService");
-        jobContext.setMethodName("scheduleTest");
-        String jsonStr = JSON.toJSONString(jobContext);
-        Client client = new Client("127.0.0.1", 8089, jsonStr);
-        client.start();
 
-
-    }
 
     public void start() throws InterruptedException {
 

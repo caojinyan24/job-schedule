@@ -40,7 +40,7 @@ public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
             return;
         }
         //保存任务信息到数据库
-//        scheduleService.processJobInfo(paramStr);
+        scheduleService.processJobInfo(paramStr);
         ctx.write("success");
 
     }

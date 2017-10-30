@@ -8,8 +8,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
+import swa.tools.ApplicationManager;
 
 import java.lang.reflect.Method;
 
@@ -19,8 +18,8 @@ import java.lang.reflect.Method;
  */
 public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobScheduleReceiver.class);
-    private ApplicationContext applicationContext = new GenericApplicationContext();
 
+    //一种考考虑是在本地维护一个以jobname为key，task实例为value的map队列，其中task中存放了bean实例和method方法
     @Override
     public void channelReadComplete(final ChannelHandlerContext ctx) {
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
@@ -55,11 +54,11 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
             if (jobInfo != null) {
                 //// TODO: 10/16/17 做一个代理方法
                 //通过反射调用方法
-//                if (applicationContext.containsBean(jobInfo.getBeanName())) {
-                    logger.info("begin to invoke:{}", jobInfo);
-                    Method method = applicationContext.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
-                    method.invoke(jobInfo.getParam());
-//                }
+                if (null != ApplicationManager.getBean(jobInfo.getBeanName())) {
+                    logger.info("begin to invoke:{},{}", jobInfo, ApplicationManager.getBean(jobInfo.getBeanName()).getClass());
+                    Method method = ApplicationManager.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), null);
+                    method.invoke(ApplicationManager.getBean(jobInfo.getBeanName()));
+                }
             }
         } catch (Exception e) {
             logger.error("schedule invoke error:", e);

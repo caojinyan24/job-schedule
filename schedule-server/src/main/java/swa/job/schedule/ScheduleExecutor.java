@@ -39,13 +39,14 @@ public class ScheduleExecutor {
     private LinkedBlockingDeque<JobContext> jobContexts = new LinkedBlockingDeque<JobContext>();//存放job名称和下次执行时间，每次有新的job加入或job做了修改的时候，都需要把job加入map中
 
 
+    // TODO: 10/30/17
     @PostConstruct
     public void setUp() {
-        while (true) {
+//        while (true) {
             if (!jobContexts.isEmpty()) {
                 schedule(jobContexts.poll().getJobName());
             }
-        }
+//        }
     }
 
     /**

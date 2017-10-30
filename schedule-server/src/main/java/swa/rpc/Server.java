@@ -47,18 +47,10 @@ public final class Server {
         this.port = port;
     }
 
-    static {
-        try {
-            new Server("127.0.0.1", 8087).start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 
     public void start() throws InterruptedException {
-        logger.info("start:{},{}",host,port);
+        logger.info("start:{},{}", host, port);
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
