@@ -15,6 +15,7 @@ The matching wildcard is strict, but no declaration can be found
 添加注解的问题
 schedule-client 打ｊａｒ包的时候，无法把META-INF下的文件打进入。代码，配置各种尝试，最后没办法，试着把idea右侧的profiles中的lcoal勾选去掉，居然可以了。。。无法理解为什么勾选上就无法把资源文件打入到jar包中
 
+client跟server用的Server类放在了一个包里，导致一个serverclass文件被覆盖，启动的时候，启动了server模块中的Server类，导致client模块的server无法启动。坑，把client模块对server模块的依赖去掉后问题解决
 
 todo
 添加mybatis相关配置

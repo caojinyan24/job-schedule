@@ -27,6 +27,7 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
     public void doParse(Element element, BeanDefinitionBuilder beanDefinitionBuilder) {
         if (element.getAttribute("port") != null && element.getAttribute("port") != "") {
             Integer port = Integer.valueOf(element.getAttribute("port"));
+            logger.info("doParse：port-{}",port);
             beanDefinitionBuilder.addPropertyValue("port", port);
             try {
                 new Server("127.0.0.1", port).start();
@@ -34,9 +35,5 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
                 e.printStackTrace();
             }
         }
-
-
-        logger.info("doParse-------------------------------");
-
     }
 }

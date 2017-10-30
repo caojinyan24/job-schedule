@@ -50,15 +50,16 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
 
     private String schedule(String paramStr) {
         try {
+            logger.info("schedule:{}", paramStr);
             JobContext jobInfo = JSON.parseObject(paramStr, JobContext.class);
             if (jobInfo != null) {
                 //// TODO: 10/16/17 做一个代理方法
                 //通过反射调用方法
-                if (applicationContext.containsBean(jobInfo.getJobName())) {
+//                if (applicationContext.containsBean(jobInfo.getBeanName())) {
+                    logger.info("begin to invoke:{}", jobInfo);
                     Method method = applicationContext.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
-
                     method.invoke(jobInfo.getParam());
-                }
+//                }
             }
         } catch (Exception e) {
             logger.error("schedule invoke error:", e);

@@ -23,6 +23,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import swa.job.common.DataDecoder;
 import swa.job.common.DataEncoder;
 import swa.job.registry.JobInfoReceiver;
@@ -36,6 +38,7 @@ import swa.job.registry.JobInfoReceiver;
  * Channels. This API is very experimental and incomplete.
  */
 public final class Server {
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
     private String host;
     private int port;
 
@@ -44,7 +47,7 @@ public final class Server {
         this.port = port;
     }
 
-    public static void main(String[] args) {
+    static {
         try {
             new Server("127.0.0.1", 8087).start();
         } catch (InterruptedException e) {
@@ -52,7 +55,10 @@ public final class Server {
         }
     }
 
+
+
     public void start() throws InterruptedException {
+        logger.info("start:{},{}",host,port);
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();

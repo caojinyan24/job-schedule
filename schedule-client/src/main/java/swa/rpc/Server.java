@@ -23,6 +23,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A HTTP/2 Server that responds to requests with a Hello World. Once started, you can test the
@@ -32,6 +34,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Channels. This API is very experimental and incomplete.
  */
 public final class Server {
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
     private String host;
     private int port;
 
@@ -41,6 +44,8 @@ public final class Server {
     }
 
     public void start() throws InterruptedException {
+        logger.info("server:{},{} start", host, port);
+
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
