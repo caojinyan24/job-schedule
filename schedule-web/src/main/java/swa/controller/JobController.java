@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swa.job.common.entity.JobContext;
-import swa.job.mapper.JobMapper;
+import swa.job.common.JobContext;
+import swa.db.mapper.JobMapper;
 import swa.rpc.Client;
 
 import javax.annotation.Resource;

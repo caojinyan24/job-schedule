@@ -1,4 +1,4 @@
-package swa.rpc;
+package swa.job.schedule;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.buffer.Unpooled;
@@ -8,7 +8,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import swa.tools.ApplicationManager;
+import swa.job.ApplicationManager;
+import swa.job.JobInfo;
 
 import java.lang.reflect.Method;
 
@@ -32,7 +33,6 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("recieveMsg:{}", msg);
         String paramStr = (String) msg;
         if (paramStr == null || paramStr == "") {
             return;
@@ -50,12 +50,11 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
     private String schedule(String paramStr) {
         try {
             logger.info("schedule:{}", paramStr);
-            JobContext jobInfo = JSON.parseObject(paramStr, JobContext.class);
+            JobInfo jobInfo = JSON.parseObject(paramStr, JobInfo.class);
             if (jobInfo != null) {
                 //// TODO: 10/16/17 做一个代理方法
                 //通过反射调用方法
                 if (null != ApplicationManager.getBean(jobInfo.getBeanName())) {
-                    logger.info("begin to invoke:{},{}", jobInfo, ApplicationManager.getBean(jobInfo.getBeanName()).getClass());
                     Method method = ApplicationManager.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), null);
                     method.invoke(ApplicationManager.getBean(jobInfo.getBeanName()));
                 }

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package swa.rpc;
+package swa.job.register;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -25,11 +25,8 @@ import org.slf4j.LoggerFactory;
  */
 public class JobInfoSender extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobInfoSender.class);
-    private String jobInfo;
+    private final String jobInfo;
 
-    /**
-     * Creates a client-side handler.
-     */
     public JobInfoSender(String jobInfo) {
         this.jobInfo = jobInfo;
     }
@@ -41,7 +38,6 @@ public class JobInfoSender extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        logger.info("getData:{}", msg);
         ctx.write(msg);
     }
 
@@ -52,7 +48,6 @@ public class JobInfoSender extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        // Close the connection when an exception is raised.
         cause.printStackTrace();
         ctx.close();
     }

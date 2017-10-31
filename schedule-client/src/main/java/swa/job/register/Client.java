@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package swa.rpc;
+package swa.job.register;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -22,8 +22,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import swa.job.DataDecoder;
+import swa.job.DataEncoder;
 
 /**
  * Sends one message when a connection is open and echoes back any received
@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
  * the server.
  */
 public class Client {
-    private static final Logger logger = LoggerFactory.getLogger(Client.class);
-
     private String host;
     private int port;
     private String jobInfo;
@@ -62,9 +60,7 @@ public class Client {
                     });
             Channel channel = b.connect(host, port).sync().channel();
             channel.closeFuture().sync();
-            // Wait until the connection is closed.
         } finally {
-            // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
     }

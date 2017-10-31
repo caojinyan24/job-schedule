@@ -1,16 +1,17 @@
-package swa.rpc;
+package swa.job.common;
 
 /**
  * Created by jinyan on 10/20/17 2:20 PM.
  */
+// TODO: 10/31/17 取到值后先做校验
 public class JobContext {
-    private String jobName;//暂时冗余，赋值为appName+beanName+methodName
-    private String appName;
-    private String beanName;
-    private String methodName;
-    private String cronParam;
-    private String address;
-    private String param;
+    private String jobName = "";//暂时冗余，赋值为appName+beanName+methodName
+    private String appName = "";
+    private String beanName = "";
+    private String methodName = "";
+    private String cronParam = "";
+    private String address = "";
+    private String param = "";
 
     public String getJobName() {
         return jobName;

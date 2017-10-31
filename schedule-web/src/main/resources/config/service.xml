@@ -9,5 +9,5 @@
     <!-- 事务管理器 -->
     <context:component-scan base-package="swa.job.registry,swa.job.schedule,swa.rpc.*"/>
 
-
+<context:component-scan base-package="swa.job.schedule"/>
 </beans>

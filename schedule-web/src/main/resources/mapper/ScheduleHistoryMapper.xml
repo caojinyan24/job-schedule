@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="swa.job.mapper.ScheduleHistoryMapper">
+<mapper namespace="swa.db.mapper.ScheduleHistoryMapper">
 
     <!-- 查询条件 -->
     <sql id="wherecontation">
@@ -97,7 +97,7 @@
 	调用路径: ScheduleHistory.get
 	处理信息: 根据主键查询记录
 	-->
-    <select id="get" parameterType="Object" resultType="swa.job.common.entity.ScheduleHistory">
+    <select id="get" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">
         SELECT
         sh.id AS id
         ,sh.job_name AS jobName
@@ -137,7 +137,7 @@
 	方法名称: queryPagenationList
 	调用路径: ScheduleHistory.queryPagenationList
 	-->
-    <select id="queryPagenationList" parameterType="Object" resultType="swa.job.common.entity.ScheduleHistory">
+    <select id="queryPagenationList" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">
         SELECT
         sh.id AS id
         ,sh.job_name AS jobName

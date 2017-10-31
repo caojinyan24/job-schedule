@@ -1,10 +1,10 @@
-package swa.job.mapper;
+package swa.db.mapper;
 
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import swa.job.common.entity.Job;
-import swa.job.common.entity.JobContext;
+import swa.db.entity.Job;
+import swa.job.common.JobContext;
 
 import java.util.List;
 

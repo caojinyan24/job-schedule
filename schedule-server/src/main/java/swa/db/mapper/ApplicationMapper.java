@@ -1,8 +1,8 @@
-package swa.job.mapper;
+package swa.db.mapper;
 
 
 import org.springframework.stereotype.Repository;
-import swa.job.common.entity.Application;
+import swa.db.entity.Application;
 
 /**
  * ApplicationMapper

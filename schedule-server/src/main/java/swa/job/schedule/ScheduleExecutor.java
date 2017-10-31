@@ -3,10 +3,10 @@ package swa.job.schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import swa.job.common.entity.JobContext;
-import swa.job.common.entity.ScheduleHistory;
-import swa.job.mapper.JobMapper;
-import swa.job.mapper.ScheduleHistoryMapper;
+import swa.job.common.JobContext;
+import swa.db.entity.ScheduleHistory;
+import swa.db.mapper.JobMapper;
+import swa.db.mapper.ScheduleHistoryMapper;
 import swa.rpc.Client;
 
 import javax.annotation.PostConstruct;

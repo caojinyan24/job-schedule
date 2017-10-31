@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import swa.rpc.Client;
-import swa.rpc.JobContext;
+import swa.job.JobInfo;
+import swa.job.register.Client;
 
 import java.lang.reflect.Method;
 
@@ -15,6 +15,11 @@ import java.lang.reflect.Method;
  */
 public class BeanParser implements BeanPostProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanParser.class);
+    private static String APP_NAME;
+
+    public static void setAppName(String appName) {
+        APP_NAME = appName;
+    }
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
@@ -24,18 +29,17 @@ public class BeanParser implements BeanPostProcessor {
         Method[] methods = bean.getClass().getMethods();
         for (Method method : methods) {
             if (null != method.getAnnotation(JobSchedule.class)) {
-                final JobContext jobContext = new JobContext();
-                jobContext.setAddress("");// TODO: 10/23/17 获取本机ip地址
-                jobContext.setBeanName(beanName);
-                jobContext.setMethodName(method.getName());
-                jobContext.setJobName(method.getAnnotation(JobSchedule.class).jobName());
+                final JobInfo jobInfo = new JobInfo();
+                jobInfo.setBeanName(beanName);
+                jobInfo.setMethodName(method.getName());
+                jobInfo.setAppName(APP_NAME);
 
                 new Runnable() {
                     public void run() {
                         try {
-                            new Client("127.0.0.1", 8087, JSON.toJSONString(jobContext)).start();
+                            new Client("127.0.0.1", 8087, JSON.toJSONString(jobInfo)).start();//// TODO: 10/31/17 schedule服务端开放的服务注册地址和端口，后期考虑优化
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            logger.error("client start error:", e);
                         }
                     }
                 }.run();

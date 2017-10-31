@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import swa.job.common.entity.JobContext;
-import swa.job.mapper.JobMapper;
+import swa.job.common.JobContext;
+import swa.db.mapper.JobMapper;
 
 import javax.annotation.Resource;
 

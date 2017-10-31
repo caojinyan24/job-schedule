@@ -10,8 +10,8 @@
 
 
     <aop:aspectj-autoproxy/>
-    <context:component-scan base-package="swa.job.mapper"/>
-    <context:property-placeholder location="classpath*:db.properties"
+    <context:component-scan base-package="swa.db.mapper"/>
+    <context:property-placeholder location="classpath:db.properties"
                                   local-override="true" file-encoding="utf-8" ignore-unresolvable="true"
                                   ignore-resource-not-found="false"/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -71,7 +71,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
@@ -79,7 +79,7 @@
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="swa.job.mapper"/>
+        <property name="basePackage" value="swa.db.mapper"/>
     </bean>
     <tx:annotation-driven transaction-manager="txManager"/>
 
