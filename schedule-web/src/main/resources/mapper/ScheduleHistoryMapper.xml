@@ -4,155 +4,151 @@
 
 <mapper namespace="swa.db.mapper.ScheduleHistoryMapper">
 
-    <!-- 查询条件 -->
-    <sql id="wherecontation">
-        <trim suffixOverrides=",">
-            <if test="query.jobName != null and query.jobName != ''">
-                AND sh.job_name = #{query.jobName}
-            </if>
-            <if test="query.scheduleAddress != null and query.scheduleAddress != ''">
-                AND sh.schedule_address = #{query.scheduleAddress}
-            </if>
-            <if test="query.scheduleParam != null and query.scheduleParam != ''">
-                AND sh.schedule_param = #{query.scheduleParam}
-            </if>
-            <if test="query.executeTime != null and query.executeTime != ''">
-                AND sh.execute_time = #{query.executeTime}
-            </if>
-            <if test="query.executeStatus != null and query.executeStatus != ''">
-                AND sh.execute_status = #{query.executeStatus}
-            </if>
-            <if test="query.createTime != null and query.createTime != ''">
-                AND sh.create_time = #{query.createTime}
-            </if>
-            <if test="query.updateTime != null and query.updateTime != ''">
-                AND sh.update_time = #{query.updateTime}
-            </if>
-        </trim>
-    </sql>
+    <!--&lt;!&ndash; 查询条件 &ndash;&gt;-->
+    <!--<sql id="wherecontation">-->
+    <!--<trim suffixOverrides=",">-->
+    <!--<if test="query.jobName != null and query.jobName != ''">-->
+    <!--AND sh.job_name = #{query.jobName}-->
+    <!--</if>-->
+    <!--<if test="query.scheduleAddress != null and query.scheduleAddress != ''">-->
+    <!--AND sh.schedule_address = #{query.scheduleAddress}-->
+    <!--</if>-->
+    <!--<if test="query.scheduleParam != null and query.scheduleParam != ''">-->
+    <!--AND sh.schedule_param = #{query.scheduleParam}-->
+    <!--</if>-->
+    <!--<if test="query.executeTime != null and query.executeTime != ''">-->
+    <!--AND sh.execute_time = #{query.executeTime}-->
+    <!--</if>-->
+    <!--<if test="query.executeStatus != null and query.executeStatus != ''">-->
+    <!--AND sh.execute_status = #{query.executeStatus}-->
+    <!--</if>-->
+    <!--<if test="query.createTime != null and query.createTime != ''">-->
+    <!--AND sh.create_time = #{query.createTime}-->
+    <!--</if>-->
+    <!--<if test="query.updateTime != null and query.updateTime != ''">-->
+    <!--AND sh.update_time = #{query.updateTime}-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</sql>-->
 
     <!--
-	方法名称: insert
-	调用路径: ScheduleHistory.insert
-	-->
+    方法名称: insert
+    调用路径: ScheduleHistory.insert
+    -->
     <insert id="insert" parameterType="Object">
-        INSERT INTO schedule_history /* 调度历史 */
-        (
-        job_name
-        ,schedule_address
-        ,schedule_param
-        ,execute_time
-        ,execute_status
-        ,create_time
-        ,update_time
-        )
-        values
-        (
-        #{jobName}
-        ,#{scheduleAddress}
-        ,#{scheduleParam}
-        ,#{executeTime}
-        ,#{executeStatus}
-        ,#{createTime}
-        ,#{updateTime}
-        )
+    INSERT INTO schedule_history /* 调度历史 */
+    (
+    job_name
+    ,schedule_address
+    ,schedule_param
+    ,execute_time
+    ,execute_status
+    )
+    values
+    (
+    #{jobName}
+    ,#{scheduleAddress}
+    ,#{scheduleParam}
+    ,#{executeTime}
+    ,#{executeStatus}
+    )
     </insert>
 
 
-    <!--
-	方法名称: update
-	调用路径: ScheduleHistory.update
-	-->
-    <update id="update" parameterType="Object">
-        UPDATE schedule_history /* 调度历史 */
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="jobName != null">
-                job_name = #{jobName},
-            </if>
-            <if test="scheduleAddress != null">
-                schedule_address = #{scheduleAddress},
-            </if>
-            <if test="scheduleParam != null">
-                schedule_param = #{scheduleParam},
-            </if>
-            <if test="executeTime != null">
-                execute_time = #{executeTime},
-            </if>
-            <if test="executeStatus != null">
-                execute_status = #{executeStatus},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
-            </if>
-        </trim>
-        WHERE
-        id = #{id}
-    </update>
+    <!--&lt;!&ndash;-->
+    <!--方法名称: update-->
+    <!--调用路径: ScheduleHistory.update-->
+    <!--&ndash;&gt;-->
+    <!--<update id="update" parameterType="Object">-->
+    <!--UPDATE schedule_history /* 调度历史 */-->
+    <!--<trim prefix="SET" suffixOverrides=",">-->
+    <!--<if test="jobName != null">-->
+    <!--job_name = #{jobName},-->
+    <!--</if>-->
+    <!--<if test="scheduleAddress != null">-->
+    <!--schedule_address = #{scheduleAddress},-->
+    <!--</if>-->
+    <!--<if test="scheduleParam != null">-->
+    <!--schedule_param = #{scheduleParam},-->
+    <!--</if>-->
+    <!--<if test="executeTime != null">-->
+    <!--execute_time = #{executeTime},-->
+    <!--</if>-->
+    <!--<if test="executeStatus != null">-->
+    <!--execute_status = #{executeStatus},-->
+    <!--</if>-->
+    <!--<if test="createTime != null">-->
+    <!--create_time = #{createTime},-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--update_time = #{updateTime},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</update>-->
 
-    <!--
-	方法名称: get
-	调用路径: ScheduleHistory.get
-	处理信息: 根据主键查询记录
-	-->
-    <select id="get" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">
-        SELECT
-        sh.id AS id
-        ,sh.job_name AS jobName
-        ,sh.schedule_address AS scheduleAddress
-        ,sh.schedule_param AS scheduleParam
-        ,sh.execute_time AS executeTime
-        ,sh.execute_status AS executeStatus
-        ,sh.create_time AS createTime
-        ,sh.update_time AS updateTime
-        FROM schedule_history AS sh
-        WHERE
-        id = #{id}
-    </select>
+    <!--&lt;!&ndash;-->
+    <!--方法名称: get-->
+    <!--调用路径: ScheduleHistory.get-->
+    <!--处理信息: 根据主键查询记录-->
+    <!--&ndash;&gt;-->
+    <!--<select id="get" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">-->
+    <!--SELECT-->
+    <!--sh.id AS id-->
+    <!--,sh.job_name AS jobName-->
+    <!--,sh.schedule_address AS scheduleAddress-->
+    <!--,sh.schedule_param AS scheduleParam-->
+    <!--,sh.execute_time AS executeTime-->
+    <!--,sh.execute_status AS executeStatus-->
+    <!--,sh.create_time AS createTime-->
+    <!--,sh.update_time AS updateTime-->
+    <!--FROM schedule_history AS sh-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</select>-->
 
-    <!--
-	方法名称: delete
-	调用路径: ScheduleHistory.delete
-	处理信息: 删除记录
-	-->
-    <delete id="delete" parameterType="Object">
-        DELETE FROM schedule_history
-        WHERE
-        id = #{id}
-    </delete>
+    <!--&lt;!&ndash;-->
+    <!--方法名称: delete-->
+    <!--调用路径: ScheduleHistory.delete-->
+    <!--处理信息: 删除记录-->
+    <!--&ndash;&gt;-->
+    <!--<delete id="delete" parameterType="Object">-->
+    <!--DELETE FROM schedule_history-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</delete>-->
 
-    <!--
-	方法名称: queryItemCount
-	调用路径: ScheduleHistory.queryItemCount
-	-->
-    <select id="queryItemCount" resultType="java.lang.Integer" parameterType="Object">
-        SELECT count(*) FROM schedule_history AS sh
-        WHERE 1=1
-        <include refid="wherecontation"/>
-    </select>
+    <!--&lt;!&ndash;-->
+    <!--方法名称: queryItemCount-->
+    <!--调用路径: ScheduleHistory.queryItemCount-->
+    <!--&ndash;&gt;-->
+    <!--<select id="queryItemCount" resultType="java.lang.Integer" parameterType="Object">-->
+    <!--SELECT count(*) FROM schedule_history AS sh-->
+    <!--WHERE 1=1-->
+    <!--<include refid="wherecontation"/>-->
+    <!--</select>-->
 
-    <!--
-	方法名称: queryPagenationList
-	调用路径: ScheduleHistory.queryPagenationList
-	-->
-    <select id="queryPagenationList" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">
-        SELECT
-        sh.id AS id
-        ,sh.job_name AS jobName
-        ,sh.schedule_address AS scheduleAddress
-        ,sh.schedule_param AS scheduleParam
-        ,sh.execute_time AS executeTime
-        ,sh.execute_status AS executeStatus
-        ,sh.create_time AS createTime
-        ,sh.update_time AS updateTime
-        FROM schedule_history AS sh
-        WHERE 1=1
-        <include refid="wherecontation"/>
-        ORDER BY sh.id DESC
-        LIMIT #{startRow}
-        ,#{pageSize}
-    </select>
+    <!--&lt;!&ndash;-->
+    <!--方法名称: queryPagenationList-->
+    <!--调用路径: ScheduleHistory.queryPagenationList-->
+    <!--&ndash;&gt;-->
+    <!--<select id="queryPagenationList" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">-->
+    <!--SELECT-->
+    <!--sh.id AS id-->
+    <!--,sh.job_name AS jobName-->
+    <!--,sh.schedule_address AS scheduleAddress-->
+    <!--,sh.schedule_param AS scheduleParam-->
+    <!--,sh.execute_time AS executeTime-->
+    <!--,sh.execute_status AS executeStatus-->
+    <!--,sh.create_time AS createTime-->
+    <!--,sh.update_time AS updateTime-->
+    <!--FROM schedule_history AS sh-->
+    <!--WHERE 1=1-->
+    <!--<include refid="wherecontation"/>-->
+    <!--ORDER BY sh.id DESC-->
+    <!--LIMIT #{startRow}-->
+    <!--,#{pageSize}-->
+    <!--</select>-->
 
 </mapper>

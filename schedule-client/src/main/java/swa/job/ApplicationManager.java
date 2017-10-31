@@ -10,13 +10,12 @@ import org.springframework.context.ApplicationContextAware;
 public class ApplicationManager<T> implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
+    public static <T> T getBean(String beanName) {
+        return (T) applicationContext.getBean(beanName);
+    }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ApplicationManager.applicationContext = applicationContext;
-    }
-
-    public static <T> T getBean(String beanName) {
-        return (T) applicationContext.getBean(beanName);
     }
 
 }

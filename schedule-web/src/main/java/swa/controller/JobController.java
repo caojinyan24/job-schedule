@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import swa.job.common.JobContext;
-import swa.db.mapper.JobMapper;
+import swa.db.entity.JobInfo;
+import swa.db.mapper.JobInfoMapper;
 import swa.rpc.Client;
 
 import javax.annotation.Resource;
@@ -22,12 +22,12 @@ import javax.annotation.Resource;
 public class JobController {
     private static final Logger logger = LoggerFactory.getLogger(JobController.class);
     @Resource
-    private JobMapper jobMapper;
+    private JobInfoMapper jobInfoMapper;
 
 
     @RequestMapping("/executeNow")
-    public String scheduleJob(@RequestParam("jobName") String jobName) {
-        JobContext jobContext = jobMapper.selectByJobName(jobName);
+    public String scheduleJob(@RequestParam("jobCode") Integer jobCode) {
+        JobInfo jobContext = jobInfoMapper.selectByJobCode(jobCode);
         String jsonStr = JSON.toJSONString(jobContext);
         Client client = new Client("127.0.0.1", 8089, jsonStr);
         try {

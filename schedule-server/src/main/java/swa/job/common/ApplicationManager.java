@@ -15,25 +15,15 @@ public class ApplicationManager<T> implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationManager.class);
     private static ApplicationContext applicationContext;
 
-    public ApplicationManager() {
-        logger.info("set application done:{}", applicationContext);
-
-    }
-
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ApplicationManager.applicationContext = applicationContext;
-        logger.info("set application done:{}", applicationContext);
-    }
-
     public static <T> T getBean(String beanName) {
         return (T) applicationContext.getBean(beanName);
     }
 
     public static <T> T getBean(Class beanClass) {
         return (T) applicationContext.getBean(beanClass);
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        ApplicationManager.applicationContext = applicationContext;
     }
 }

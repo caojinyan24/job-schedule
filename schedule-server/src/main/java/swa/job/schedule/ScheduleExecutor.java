@@ -1,12 +1,14 @@
 package swa.job.schedule;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import swa.job.common.JobContext;
+import swa.db.entity.JobInfo;
 import swa.db.entity.ScheduleHistory;
-import swa.db.mapper.JobMapper;
 import swa.db.mapper.ScheduleHistoryMapper;
+import swa.db.service.ScheduleService;
+import swa.job.common.JobContext;
 import swa.rpc.Client;
 
 import javax.annotation.PostConstruct;
@@ -26,13 +28,12 @@ public class ScheduleExecutor {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleExecutor.class);
 
     @Resource
-    private JobMapper jobMapper;
+    private ScheduleService scheduleService;
     @Resource
     private CronParserService cronParserService;
     @Resource
     private ScheduleHistoryMapper scheduleHistoryMapper;
 
-    private LinkedBlockingDeque<String> jobList = new LinkedBlockingDeque<String>();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
     // TODO: 10/21/17 根据Date做排序，而不是通过key的hash值
     private LinkedBlockingDeque<JobContext> jobContexts = new LinkedBlockingDeque<JobContext>();//存放job名称和下次执行时间，每次有新的job加入或job做了修改的时候，都需要把job加入map中
@@ -43,7 +44,7 @@ public class ScheduleExecutor {
     public void setUp() {
 //        while (true) {
         if (!jobContexts.isEmpty()) {
-            schedule(jobContexts.poll().getJobName());
+            schedule(jobContexts.poll().getJobCode());
         }
 //        }
     }
@@ -52,24 +53,25 @@ public class ScheduleExecutor {
      * springschedule的任务调度如果需要修改调度时间，只能修改代码后重启服务；
      * 为了避免服务重启，需要在每次执行任务之前检查任务的调度时间是否更改：即重新计算下次执行时间
      *
-     * @param jobName
+     * @param jobCode
      */
 
-    public void schedule(final String jobName) {
-        logger.info("schedule job:{}", jobName);
+    public void schedule(final Integer jobCode) {
+        logger.info("schedule job:{}", jobCode);
         //获取最新的调度时间
-        final JobContext currentjob = jobMapper.selectByJobName(jobName);
-        Date nextScheduleTime = cronParserService.getNextScheduleTime(currentjob.getCronParam());
+        final JobContext jobContext = scheduleService.getExecuteJobInfo(jobCode);
+        Date nextScheduleTime = cronParserService.getNextScheduleTime(jobContext.getCronParam());
+        final JobInfo jobInfo = new JobInfo(jobContext.getJobCode(), jobContext.getAppName(), jobContext.getBeanName(), jobContext.getMethodName());
         //执行调度
         executorService.schedule(new Runnable() {
             public void run() {
                 try {
-                    new Client("127.0.0.1", 8080, "jobInfo").start();// TODO: 10/23/17 test
+                    new Client(jobContext.getAddress(), jobContext.getPort(), JSON.toJSONString(jobInfo)).start();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                scheduleHistoryMapper.add(new ScheduleHistory(jobName, 2));// TODO: 10/23/17 获取请求结果
-                jobContexts.add(currentjob);
+                scheduleHistoryMapper.add(new ScheduleHistory(jobCode, jobContext.getAddress() + ":" + jobContext.getPort(), jobContext.getParam(), new Date()));// TODO: 10/23/17 获取请求结果
+                jobContexts.add(jobContext);
             }
         }, getDelayedTime(nextScheduleTime), TimeUnit.SECONDS);
 

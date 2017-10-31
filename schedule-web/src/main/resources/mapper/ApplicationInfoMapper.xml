@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="swa.db.mapper.ApplicationInfoMapper">
+
+    <!--&lt;!&ndash; 查询条件 &ndash;&gt;-->
+    <!--<sql id="wherecontation">-->
+    <!--<trim suffixOverrides=",">-->
+    <!--<if test="query.appName != null and query.appName != ''">-->
+    <!--AND a.app_name = #{query.appName}-->
+    <!--</if>-->
+    <!--<if test="query.address != null and query.address != ''">-->
+    <!--AND a.address = #{query.address}-->
+    <!--</if>-->
+    <!--<if test="query.createTime != null and query.createTime != ''">-->
+    <!--AND a.create_time = #{query.createTime}-->
+    <!--</if>-->
+    <!--<if test="query.updateTime != null and query.updateTime != ''">-->
+    <!--AND a.update_time = #{query.updateTime}-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</sql>-->
+
+    <!--
+    方法名称: insert
+    调用路径: Application.insert
+    -->
+    <insert id="insertOrUpdateApplicationInfo" parameterType="swa.db.entity.ApplicationInfo">
+    INSERT INTO applicationInfo /* 应用表 */
+    (
+    app_name
+    ,address
+    ,port
+    )
+    values
+    (
+    #{appName}
+    ,#{address}
+    ,#{port}
+    ) on duplicate key UPDATE app_name,address,port
+    </insert>
+
+
+    <!--&lt;!&ndash;-->
+    <!--方法名称: update-->
+    <!--调用路径: Application.update-->
+    <!--&ndash;&gt;-->
+    <!--<update id="update" parameterType="swa.db.entity.Application">-->
+    <!--UPDATE application /* 应用表 */-->
+    <!--<trim prefix="SET" suffixOverrides=",">-->
+    <!--<if test="appName != null">-->
+    <!--app_name = #{appName},-->
+    <!--</if>-->
+    <!--<if test="address != null">-->
+    <!--address = #{address},-->
+    <!--</if>-->
+    <!--<if test="createTime != null">-->
+    <!--create_time = #{createTime},-->
+    <!--</if>-->
+    <!--<if test="updateTime != null">-->
+    <!--update_time = #{updateTime},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</update>-->
+
+    <!--&lt;!&ndash;-->
+    <!--方法名称: get-->
+    <!--调用路径: swa.mapper.Application.get-->
+    <!--处理信息: 根据主键查询记录-->
+    <!--&ndash;&gt;-->
+    <!--<select id="get" parameterType="Object" resultType="swa.db.entity.Application">-->
+    <!--SELECT-->
+    <!--a.id AS id-->
+    <!--,a.app_name AS appName-->
+    <!--,a.address AS address-->
+    <!--,a.create_time AS createTime-->
+    <!--,a.update_time AS updateTime-->
+    <!--FROM application AS a-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</select>-->
+
+    <!--&lt;!&ndash;-->
+    <!--方法名称: delete-->
+    <!--调用路径: Application.delete-->
+    <!--处理信息: 删除记录-->
+    <!--&ndash;&gt;-->
+    <!--<delete id="delete" parameterType="Object">-->
+    <!--DELETE FROM application-->
+    <!--WHERE-->
+    <!--id = #{id}-->
+    <!--</delete>-->
+
+    <!--&lt;!&ndash;-->
+    <!--方法名称: queryItemCount-->
+    <!--调用路径: Application.queryItemCount-->
+    <!--&ndash;&gt;-->
+    <!--<select id="queryItemCount" resultType="java.lang.Integer" parameterType="Object">-->
+    <!--SELECT count(*) FROM application AS a-->
+    <!--WHERE 1=1-->
+    <!--<include refid="wherecontation"/>-->
+    <!--</select>-->
+
+    <!--
+    方法名称: queryPagenationList
+    调用路径: Application.queryPagenationList
+    -->
+    <select id="selectByAppName" parameterType="java.lang.String" resultType="swa.db.entity.ApplicationInfo">
+    SELECT
+    ,a.app_name AS appName
+    ,a.address AS address
+    ,a.port as port
+    FROM application AS a
+    WHERE a.app_name=#{appName}
+    </select>
+
+</mapper>

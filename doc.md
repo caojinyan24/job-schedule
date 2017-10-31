@@ -17,6 +17,10 @@ schedule-client 打ｊａｒ包的时候，无法把META-INF下的文件打进�
 
 client跟server用的Server类放在了一个包里，导致一个serverclass文件被覆盖，启动的时候，启动了server模块中的Server类，导致client模块的server无法启动。坑，把client模块对server模块的依赖去掉后问题解决
 
+莫名奇妙的问题：跑单测的时候，报错：找不到指定的bean
+最终发现问题出错的原因是加载配置文件的时候，使用了classpath*,修改成classpath之后，问题单测可正常运行。查了下，classpath和classpath*还时有区别的。
+
+还有个无故好了的问题，之前在控制台执行maven的打包命令报各种依赖插件找不到，今天重新试了下居然好了;而且现在勾选上localprofile，打出的jar包中也包含了resources的文件
 todo
 添加mybatis相关配置
 添加web页面

@@ -2,6 +2,7 @@ package swa.job.schedule;
 
 import org.junit.Test;
 import swa.BaseTest;
+import swa.db.service.impl.ScheduleServiceImpl;
 
 import javax.annotation.Resource;
 
@@ -15,7 +16,7 @@ public class ScheduleServiceImplTest extends BaseTest {
     @Test
     public void testProcessJobInfo() throws Exception {
         String str = "{\"address\":\"\",\"beanName\":\"dataLoaderServiceImpl\",\"jobName\":\"hot.deploy.test\",\"methodName\":\"scheduleTest\"}";
-        scheduleServiceImpl.processJobInfo(str);
+        scheduleServiceImpl.saveJobInfo(str);
 
 
     }

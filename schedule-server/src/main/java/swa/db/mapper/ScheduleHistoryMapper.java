@@ -12,11 +12,11 @@ import swa.db.entity.ScheduleHistory;
 public interface ScheduleHistoryMapper {
 
     public void add(ScheduleHistory scheduleHistory);
-
-    public void update(ScheduleHistory scheduleHistory);
-
-    public void deleteByPriKey(Long id);
-
-    public ScheduleHistory queryByPriKey(Long id);
+//
+//    public void update(ScheduleHistory scheduleHistory);
+//
+//    public void deleteByPriKey(Long id);
+//
+//    public ScheduleHistory queryByPriKey(Long id);
 
 }

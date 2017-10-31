@@ -16,6 +16,11 @@ import java.lang.reflect.Method;
 public class BeanParser implements BeanPostProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanParser.class);
     private static String APP_NAME;
+    private static Integer PORT;
+
+    public static void setPORT(Integer PORT) {
+        BeanParser.PORT = PORT;
+    }
 
     public static void setAppName(String appName) {
         APP_NAME = appName;
@@ -33,7 +38,7 @@ public class BeanParser implements BeanPostProcessor {
                 jobInfo.setBeanName(beanName);
                 jobInfo.setMethodName(method.getName());
                 jobInfo.setAppName(APP_NAME);
-
+                jobInfo.setClientPort(PORT);
                 new Runnable() {
                     public void run() {
                         try {
@@ -48,4 +53,5 @@ public class BeanParser implements BeanPostProcessor {
         }
         return bean;
     }
+
 }

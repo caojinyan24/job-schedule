@@ -7,10 +7,7 @@ public class JobInfo {
     private String appName;
     private String beanName;
     private String methodName;
-
-    public String getAppName() {
-        return appName;
-    }
+    private Integer clientPort;
 
     public void setAppName(String appName) {
         this.appName = appName;
@@ -32,5 +29,7 @@ public class JobInfo {
         this.methodName = methodName;
     }
 
-
+    public void setClientPort(Integer clientPort) {
+        this.clientPort = clientPort;
+    }
 }

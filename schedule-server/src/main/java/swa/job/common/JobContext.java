@@ -1,24 +1,40 @@
 package swa.job.common;
 
+import swa.db.entity.JobInfo;
+
 /**
  * Created by jinyan on 10/20/17 2:20 PM.
  */
-// TODO: 10/31/17 取到值后先做校验
 public class JobContext {
-    private String jobName = "";//暂时冗余，赋值为appName+beanName+methodName
-    private String appName = "";
-    private String beanName = "";
-    private String methodName = "";
-    private String cronParam = "";
-    private String address = "";
-    private String param = "";
+    private Integer jobCode;
+    private String appName;
+    private String beanName;
+    private String methodName;
+    private String cronParam;
+    private String address;
+    private Integer port;
+    private String param;
 
-    public String getJobName() {
-        return jobName;
+    public JobContext() {
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public JobContext(JobInfo jobInfo, String address, Integer port) {
+        this.jobCode = jobInfo.getJobCode();
+        this.appName = jobInfo.getAppName();
+        this.beanName = jobInfo.getBeanName();
+        this.methodName = jobInfo.getMethodName();
+        this.cronParam = jobInfo.getCronParam();
+        this.address = address;
+        this.port = port;
+        this.param = jobInfo.getParam();
+    }
+
+    public Integer getJobCode() {
+        return jobCode;
+    }
+
+    public void setJobCode(Integer jobCode) {
+        this.jobCode = jobCode;
     }
 
     public String getAppName() {
@@ -67,5 +83,13 @@ public class JobContext {
 
     public void setParam(String param) {
         this.param = param;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
     }
 }

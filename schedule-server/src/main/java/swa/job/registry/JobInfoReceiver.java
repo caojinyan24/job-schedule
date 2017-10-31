@@ -7,8 +7,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import swa.db.service.ScheduleService;
 import swa.job.common.ApplicationManager;
-import swa.job.schedule.ScheduleService;
 
 /**
  * 接收任务调度Handler
@@ -31,13 +31,13 @@ public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("recieveMsg:{}", msg);
+        logger.info("jobInfo received:{}", msg);
         String paramStr = (String) msg;
         if (paramStr == null || paramStr == "") {
             return;
         }
         //保存任务信息到数据库
-        scheduleService.processJobInfo(paramStr);
+        scheduleService.saveJobInfo(paramStr);
         ctx.write("success");
 
     }
