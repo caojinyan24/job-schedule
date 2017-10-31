@@ -1,4 +1,4 @@
-package swa.job.common;
+package swa.job.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

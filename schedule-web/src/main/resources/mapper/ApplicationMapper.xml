@@ -27,19 +27,19 @@
 	调用路径: Application.insert
 	-->
     <insert id="insert" parameterType="Object">
-        INSERT INTO  application /* 应用表 */
+        INSERT INTO application /* 应用表 */
         (
-                               app_name                  
-                             ,address                   
-                             ,create_time               
-                             ,update_time               
+        app_name
+        ,address
+        ,create_time
+        ,update_time
         )
         values
         (
-                               #{appName}                  
-                             ,#{address}                   
-                             ,#{createTime}                
-                             ,#{updateTime}                
+        #{appName}
+        ,#{address}
+        ,#{createTime}
+        ,#{updateTime}
         )
     </insert>
 
@@ -75,12 +75,12 @@
 	-->
     <select id="get" parameterType="Object" resultType="swa.job.common.entity.Application">
         SELECT
-         a.id                      AS   id
-         ,a.app_name                AS     appName                
-         ,a.address                 AS     address                
-         ,a.create_time             AS     createTime             
-         ,a.update_time             AS     updateTime             
-        FROM   application AS a
+        a.id AS id
+        ,a.app_name AS appName
+        ,a.address AS address
+        ,a.create_time AS createTime
+        ,a.update_time AS updateTime
+        FROM application AS a
         WHERE
         id = #{id}
     </select>

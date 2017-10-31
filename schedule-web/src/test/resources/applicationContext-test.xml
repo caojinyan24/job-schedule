@@ -8,6 +8,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd
   ">
     <context:annotation-config/>
-    <import resource="classpath*:config/dao.xml"/>
-    <import resource="classpath*:config/service.xml"/>
+    <import resource="classpath:config/dao.xml"/>
+    <import resource="classpath:config/service.xml"/>
 </beans>

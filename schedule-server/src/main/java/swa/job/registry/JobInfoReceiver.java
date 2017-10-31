@@ -7,20 +7,20 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import swa.job.schedule.ApplicationManager;
 import swa.job.schedule.ScheduleService;
-
-import javax.annotation.Resource;
 
 /**
  * 接收任务调度Handler
  * Created by jinyan on 10/12/17 3:30 PM.
  */
-@Component
+//@Component
 public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobInfoReceiver.class);
-    @Resource
-    private ScheduleService scheduleService;
+    private final ScheduleService scheduleService = ApplicationManager.getBean(ScheduleService.class);
+//    @Resource
+//    private ScheduleService scheduleService;//不知道为什么无法注入
+
 
     @Override
     public void channelReadComplete(final ChannelHandlerContext ctx) {

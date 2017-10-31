@@ -8,24 +8,9 @@
     </appender>
     <!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份)-->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${catalina.home}/log/manage.log</File>
+        <File>${catalina.home}/log/schedule.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>manage.log.%i.bak</FileNamePattern>
-            <MinIndex>1</MinIndex>
-            <MaxIndex>12</MaxIndex>
-        </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>100MB</MaxFileSize>
-        </triggeringPolicy>
-        <encoder>
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-        </encoder>
-    </appender>
-    <!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份)-->
-    <appender name="FILE1" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${catalina.home}/log/manageSys.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>manage.log.%i.bak</FileNamePattern>
+            <FileNamePattern>schedule.log.%i.bak</FileNamePattern>
             <MinIndex>1</MinIndex>
             <MaxIndex>12</MaxIndex>
         </rollingPolicy>

@@ -144,18 +144,4 @@
     </dependencyManagement>
 
 
-    <profiles>
-        <profile>
-            <id>local</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>web/src/main/profiles</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-    </profiles>
-
-
 </project>

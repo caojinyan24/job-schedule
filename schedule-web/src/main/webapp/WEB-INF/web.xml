@@ -11,13 +11,13 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <!--<servlet>-->
-        <!--<servlet-name>server</servlet-name>-->
-        <!--<servlet-class>swa.rpc.service.RpcService</servlet-class>-->
-        <!--<load-on-startup>1</load-on-startup>-->
+    <!--<servlet-name>server</servlet-name>-->
+    <!--<servlet-class>swa.rpc.service.RpcService</servlet-class>-->
+    <!--<load-on-startup>1</load-on-startup>-->
     <!--</servlet>-->
     <!--<servlet-mapping>-->
-        <!--<servlet-name>server</servlet-name>-->
-        <!--<url-pattern>/register</url-pattern>-->
+    <!--<servlet-name>server</servlet-name>-->
+    <!--<url-pattern>/register</url-pattern>-->
     <!--</servlet-mapping>-->
 
 

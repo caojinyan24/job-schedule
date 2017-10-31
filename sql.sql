@@ -31,3 +31,7 @@ CREATE TABLE `schedule_history` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_job_name` (`job_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='调度历史';
+
+
+--说明：
+--jobName为应用名+类名+方法名的hash值，由调度系统生成，无需系统指定，仅供调度系统用来判断唯一性

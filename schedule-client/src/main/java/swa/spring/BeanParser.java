@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
  */
 public class BeanParser implements BeanPostProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanParser.class);
+
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }

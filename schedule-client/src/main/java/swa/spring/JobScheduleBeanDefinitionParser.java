@@ -40,7 +40,7 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
             }
             logger.info("register done");
 
-            Thread thread=new Thread(new Runnable() {
+            Thread thread = new Thread(new Runnable() {
                 public void run() {
                     try {
                         new Server("127.0.0.1", port).start();

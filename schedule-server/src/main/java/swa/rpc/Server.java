@@ -48,7 +48,6 @@ public final class Server {
     }
 
 
-
     public void start() throws InterruptedException {
         logger.info("start:{},{}", host, port);
         EventLoopGroup group = new NioEventLoopGroup();

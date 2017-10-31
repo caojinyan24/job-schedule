@@ -3,7 +3,6 @@ package swa.job.schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import swa.job.common.CronParserService;
 import swa.job.common.entity.JobContext;
 import swa.job.common.entity.ScheduleHistory;
 import swa.job.mapper.JobMapper;
@@ -43,9 +42,9 @@ public class ScheduleExecutor {
     @PostConstruct
     public void setUp() {
 //        while (true) {
-            if (!jobContexts.isEmpty()) {
-                schedule(jobContexts.poll().getJobName());
-            }
+        if (!jobContexts.isEmpty()) {
+            schedule(jobContexts.poll().getJobName());
+        }
 //        }
     }
 

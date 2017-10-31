@@ -1,4 +1,4 @@
-package swa.job.common;
+package swa.job.schedule;
 
 import java.util.Date;
 

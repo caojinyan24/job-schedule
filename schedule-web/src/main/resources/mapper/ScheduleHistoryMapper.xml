@@ -36,25 +36,25 @@
 	调用路径: ScheduleHistory.insert
 	-->
     <insert id="insert" parameterType="Object">
-        INSERT INTO  schedule_history /* 调度历史 */
+        INSERT INTO schedule_history /* 调度历史 */
         (
-                               job_name                  
-                             ,schedule_address          
-                             ,schedule_param            
-                             ,execute_time              
-                             ,execute_status            
-                             ,create_time               
-                             ,update_time               
+        job_name
+        ,schedule_address
+        ,schedule_param
+        ,execute_time
+        ,execute_status
+        ,create_time
+        ,update_time
         )
         values
         (
-                               #{jobName}                  
-                             ,#{scheduleAddress}           
-                             ,#{scheduleParam}             
-                             ,#{executeTime}               
-                             ,#{executeStatus}             
-                             ,#{createTime}                
-                             ,#{updateTime}                
+        #{jobName}
+        ,#{scheduleAddress}
+        ,#{scheduleParam}
+        ,#{executeTime}
+        ,#{executeStatus}
+        ,#{createTime}
+        ,#{updateTime}
         )
     </insert>
 
@@ -99,15 +99,15 @@
 	-->
     <select id="get" parameterType="Object" resultType="swa.job.common.entity.ScheduleHistory">
         SELECT
-         sh.id                      AS   id
-         ,sh.job_name                AS     jobName                
-         ,sh.schedule_address        AS     scheduleAddress        
-         ,sh.schedule_param          AS     scheduleParam          
-         ,sh.execute_time            AS     executeTime            
-         ,sh.execute_status          AS     executeStatus          
-         ,sh.create_time             AS     createTime             
-         ,sh.update_time             AS     updateTime             
-        FROM   schedule_history AS sh
+        sh.id AS id
+        ,sh.job_name AS jobName
+        ,sh.schedule_address AS scheduleAddress
+        ,sh.schedule_param AS scheduleParam
+        ,sh.execute_time AS executeTime
+        ,sh.execute_status AS executeStatus
+        ,sh.create_time AS createTime
+        ,sh.update_time AS updateTime
+        FROM schedule_history AS sh
         WHERE
         id = #{id}
     </select>
