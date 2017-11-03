@@ -43,7 +43,6 @@ public class JobScheduleInvoker extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        logger.info("getData:{}", msg);
         ctx.write(msg);
     }
 

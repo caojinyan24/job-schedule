@@ -10,7 +10,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 /**
  * Created by jinyan on 11/2/17 3:31 PM.
  */
-public class ScheduleJobList{
+public class ScheduleJobList {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleJobList.class);
     private static PriorityBlockingQueue<JobInfoWrapper> list;
 
@@ -34,16 +34,18 @@ public class ScheduleJobList{
 
     /**
      * 初次加入新任务
+     *
      * @param jobInfo
      */
     public void addJob(JobInfo jobInfo) {
-        JobInfoWrapper jobInfoWrapper=new JobInfoWrapper();
+        JobInfoWrapper jobInfoWrapper = new JobInfoWrapper();
         // TODO: 11/3/17 组装
         list.add(jobInfoWrapper);
     }
 
     /**
      * 执行后将下次待执行的任务加入执行列表
+     *
      * @param jobInfoWrapper
      */
     public void addJob(JobInfoWrapper jobInfoWrapper) {

@@ -7,7 +7,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import swa.db.service.ScheduleService;
 import swa.job.common.ApplicationManager;
 
 /**
@@ -16,8 +15,7 @@ import swa.job.common.ApplicationManager;
  */
 public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobInfoReceiver.class);
-    private final ScheduleService scheduleService = ApplicationManager.getBean(ScheduleService.class);
-
+    private final JobRegister jobRegister = ApplicationManager.getBean(JobRegister.class);
 
     @Override
     public void channelReadComplete(final ChannelHandlerContext ctx) {
@@ -37,9 +35,8 @@ public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
             return;
         }
         //保存任务信息到数据库
-        scheduleService.saveJobInfo(paramStr);
+        jobRegister.registerJob(paramStr);
         ctx.write("success");
-
     }
 
     @Override
@@ -47,5 +44,4 @@ public class JobInfoReceiver extends ChannelInboundHandlerAdapter {
         logger.error("catch exception:{}", cause);
         ctx.close();
     }
-
 }

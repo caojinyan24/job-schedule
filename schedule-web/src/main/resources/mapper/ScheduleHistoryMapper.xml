@@ -36,22 +36,22 @@
     调用路径: ScheduleHistory.insert
     -->
     <insert id="insert" parameterType="Object">
-    INSERT INTO schedule_history /* 调度历史 */
-    (
-    job_name
-    ,schedule_address
-    ,schedule_param
-    ,execute_time
-    ,execute_status
-    )
-    values
-    (
-    #{jobName}
-    ,#{scheduleAddress}
-    ,#{scheduleParam}
-    ,#{executeTime}
-    ,#{executeStatus}
-    )
+        INSERT INTO schedule_history /* 调度历史 */
+        (
+        job_name
+        ,schedule_address
+        ,schedule_param
+        ,execute_time
+        ,execute_status
+        )
+        values
+        (
+        #{jobName}
+        ,#{scheduleAddress}
+        ,#{scheduleParam}
+        ,#{executeTime}
+        ,#{executeStatus}
+        )
     </insert>
 
 

@@ -10,10 +10,7 @@ import swa.job.cronParser.ScheduleJobList;
 
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -26,6 +23,9 @@ public class JobScheduleExecutor {
     private static ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
     private static AtomicBoolean isStarted = new AtomicBoolean(false);
 
+    private static BlockingQueue<JobInfo> executeNowJobs = new LinkedBlockingQueue<JobInfo>();
+    private static AtomicBoolean isExecuteNowStarted = new AtomicBoolean(false);
+
     /**
      * 当job新增或修改时，添加job
      * 根据id，替换掉目前队列中已有的
@@ -34,12 +34,45 @@ public class JobScheduleExecutor {
      */
     public static void addJob(String jobInfoStr) {
         JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
-        JobInfo current = executingJobs.get(jobInfo.getJobId());
-        if (current != null) {
-            executingJobs.put(jobInfo.getJobId(), jobInfo);
+        if (null == jobInfo.getCronParam() || "".equals(jobInfo.getCronParam())) {
+            executeNowJobs.add(jobInfo);
+            startOnceJobs();
+        } else {
+            JobInfo current = executingJobs.get(jobInfo.getJobId());
+            if (current != null) {
+                executingJobs.put(jobInfo.getJobId(), jobInfo);
+            }
+            jobs.addJob(jobInfo);
+            startRepeatedJobs();
+
         }
-        jobs.addJob(jobInfo);
-        start();
+    }
+
+    private static void startOnceJobs() {
+        if (!isExecuteNowStarted.get()) {
+            isExecuteNowStarted.compareAndSet(true, false);
+            while (true) {
+                JobInfo jobInfo = executeNowJobs.poll();
+                if (null != jobInfo) {
+                    new JobScheduleExecutor().executeNow(jobInfo);
+                }
+            }
+        }
+    }
+
+    public static void startRepeatedJobs() {
+        if (!isStarted.get()) {
+            isStarted.compareAndSet(true, false);
+            while (true) {
+                final JobInfoWrapper jobInfoWrapper = jobs.getJob();
+                service.schedule(new Runnable() {
+                    public void run() {
+                        new JobScheduleExecutor().executeRepeat(jobInfoWrapper);
+                    }
+                }, jobInfoWrapper.getDelayExecuteTime(new Date()), TimeUnit.MILLISECONDS);
+
+            }
+        }
     }
 
     /**
@@ -48,35 +81,26 @@ public class JobScheduleExecutor {
      *
      * @param jobInfoWrapper
      */
-    private void startExecute(final JobInfoWrapper jobInfoWrapper) {
+    private void executeRepeat(final JobInfoWrapper jobInfoWrapper) {
         //        this.localAddress = RemotingUtil.getLocalAddress();
         JobInfo jobInfo = executingJobs.get(jobInfoWrapper.getJobId());
         if (jobInfoWrapper.canExecute(jobInfo)) {//判断当前的jobInfo和下次执行时间是不是当前时间
             //todo 判断当前机器是否可执行    要求传的job中address不能为空
-            if (null != ApplicationManager.getBean(jobInfo.getBeanName())) {
-                try {
-                    Method method = ApplicationManager.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
-                    method.invoke(ApplicationManager.getBean(jobInfo.getBeanName()).getClass(), jobInfo.getParam());
-                } catch (Exception e) {
-                    throw new RuntimeException("方法调用失败", e);
-                }
-            }
+            executeNow(jobInfoWrapper);
             jobs.addJob(jobInfoWrapper.updateExecuteTimes());
         } else {
             jobs.addJob(jobInfo);
         }
     }
 
-    public static void start() {
-        if (!isStarted.get()) {
-            isStarted.compareAndSet(true, false);
-            while (true) {
-                final JobInfoWrapper jobInfoWrapper = jobs.getJob();
-                service.schedule(new Runnable() {
-                    public void run() {
-                        new JobScheduleExecutor().startExecute(jobInfoWrapper);
-                    }
-                }, jobInfoWrapper.getDelayExecuteTime(new Date()), TimeUnit.MILLISECONDS);
+    private void executeNow(JobInfo jobInfo) {
+        if (null != ApplicationManager.getBean(jobInfo.getBeanName())) {
+            try {
+                Method method = ApplicationManager.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
+                method.invoke(ApplicationManager.getBean(jobInfo.getBeanName()).getClass(), jobInfo.getParam());
+                // TODO: 11/3/17 执行完成后，向server端发送执行记录，保存在历史表中
+            } catch (Exception e) {
+                throw new RuntimeException("方法调用失败", e);
             }
         }
     }

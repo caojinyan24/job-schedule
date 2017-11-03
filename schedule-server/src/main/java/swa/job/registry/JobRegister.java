@@ -1,7 +1,6 @@
-package swa.db.service.impl;
+package swa.job.registry;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,29 +11,27 @@ import swa.db.entity.JobInfo;
 import swa.db.mapper.ApplicationInfoMapper;
 import swa.db.mapper.JobInfoMapper;
 import swa.db.service.JobManagerService;
-import swa.db.service.ScheduleService;
-import swa.exception.JobScheduleException;
 import swa.exception.PreconditionUtil;
-import swa.job.common.JobContext;
+import swa.job.schedule.JobExecutor;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
- * 从库中获取定时任务执行时间，并根据时间发送任务调度请求
- * Created by jinyan on 10/12/17 3:10 PM.
+ * Created by jinyan on 11/3/17 5:55 PM.
  */
 @Service
-public class ScheduleServiceImpl implements ScheduleService {
-    private static final Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
+public class JobRegister {
+    private static final Logger logger = LoggerFactory.getLogger(JobRegister.class);
+
     @Resource
     private JobInfoMapper jobInfoMapper;
     @Resource
     private ApplicationInfoMapper applicationInfoMapper;
     @Resource
     private JobManagerService jobManagerService;
+    @Resource
+    private JobExecutor scheduleExecutor;
 
     /**
      * 组装并保存任务信息到数据库
@@ -42,7 +39,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      *
      * @param jobInfoStr
      */
-    public void saveJobInfo(String jobInfoStr) {
+    private void saveJobInfo(String jobInfoStr) {
         Map<String, Object> map = JSON.parseObject(jobInfoStr, Map.class);
         PreconditionUtil.check(null != map, "innvalid jobInfo");
         String appName = (String) map.get("appName");
@@ -67,24 +64,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (applicationInfo == null || !applicationInfo.getPort().equals(port)) {
             applicationInfoMapper.insertOrUpdateApplicationInfo(applicationInfo);
         }
-
     }
 
-
-
-    public JobContext getExecuteJobInfo(Long jobId) {
-        JobInfo jobInfo = jobInfoMapper.selectByJobId(jobId);
-        ApplicationInfo applicationInfo = applicationInfoMapper.selectByAppName(jobInfo.getAppName());
-        String address = "";
-        if (Strings.isNullOrEmpty(jobInfo.getScheduleAddr())) {
-            if (Strings.isNullOrEmpty(applicationInfo.getAddress())) {
-                throw new JobScheduleException("server address havn't configged");
-            } else {
-                List<String> addrs = Splitter.on(",").splitToList(applicationInfo.getAddress());
-                address = addrs.get(new Random().nextInt() % addrs.size());
-                address += ":" + applicationInfo.getPort();
-            }
-        }
-        return new JobContext(jobInfo, address, applicationInfo.getPort());
+    public void registerJob(String jobInfoStr) {
+        JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
+        saveJobInfo(jobInfoStr);
+        scheduleExecutor.sendJob(jobInfo.getId());
     }
+
 }

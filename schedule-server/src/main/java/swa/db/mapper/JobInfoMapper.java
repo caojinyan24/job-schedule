@@ -13,11 +13,13 @@ import java.util.List;
 @Repository
 public interface JobInfoMapper {
     List<JobInfo> selectByJobCode(@Param("jobCode") Integer jobCode);
+
     JobInfo selectByJobId(@Param("jobId") Long jobId);
+
+    void updateJobInfo(@Param("jobInfo") JobInfo jobInfo);
 
 
     void insertJob(@Param("jobInfo") JobInfo jobs);
-
 
 
 }

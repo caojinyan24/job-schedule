@@ -27,17 +27,18 @@ public class JobInfoWrapper extends JobInfo {
         return this;
     }
 
-   public Boolean canExecute(JobInfo jobInfo){
-       if(this.getCronParam().equals(jobInfo.getCronParam())){
-           return true;
-       }
-       // TODO: 11/3/17  判断执行机器
-       return false;
+    public Boolean canExecute(JobInfo jobInfo) {
+        if (this.getCronParam().equals(jobInfo.getCronParam())) {
+            return true;
+        }
+        // TODO: 11/3/17  判断执行机器
+        return false;
     }
 
-    public Long getDelayExecuteTime(Date endTime){
-        return nextExecuteTime.getTime()-endTime.getTime();
+    public Long getDelayExecuteTime(Date endTime) {
+        return nextExecuteTime.getTime() - endTime.getTime();
     }
+
     public Date getNextExecuteTime() {
         return nextExecuteTime;
     }

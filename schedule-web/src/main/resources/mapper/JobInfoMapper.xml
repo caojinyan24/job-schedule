@@ -48,32 +48,26 @@
     </insert>
 
 
-    <!--&lt;!&ndash;-->
-    <!--方法名称: update-->
-    <!--调用路径: Job.update-->
-    <!--&ndash;&gt;-->
-    <!--<update id="update" parameterType="Object">-->
-    <!--UPDATE job /* 任务表 */-->
-    <!--<trim prefix="SET" suffixOverrides=",">-->
-    <!--<if test="jobName != null">-->
-    <!--job_name = #{jobName},-->
-    <!--</if>-->
-    <!--<if test="appName != null">-->
-    <!--app_name = #{appName},-->
-    <!--</if>-->
-    <!--<if test="beanName != null">-->
-    <!--bean_name = #{beanName},-->
-    <!--</if>-->
-    <!--<if test="methodName != null">-->
-    <!--method_name = #{methodName},-->
-    <!--</if>-->
-    <!--<if test="cronParam != null">-->
-    <!--cron_param = #{cronParam},-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--WHERE-->
-    <!--id = #{id}-->
-    <!--</update>-->
+    <!--
+    方法名称: update
+    调用路径: Job.update
+    -->
+    <update id="updateJobInfo" parameterType="swa.db.entity.JobInfo">
+        UPDATE jobInfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="param!=null">
+                param=#{param}
+            </if>
+            <if test="scheduleAddr!=null">
+                schedule_addr=#{scheduleAddr}
+            </if>
+            <if test="cronParam != null">
+                cron_param = #{cronParam},
+            </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
 
 
     <select id="selectByJobId" parameterType="java.lang.Long" resultType="swa.db.entity.JobInfo">
