@@ -6,7 +6,7 @@ import swa.db.entity.JobInfo;
  * Created by jinyan on 10/20/17 2:20 PM.
  */
 public class JobContext {
-    private Integer jobCode;
+    private Long jobId;
     private String appName;
     private String beanName;
     private String methodName;
@@ -19,7 +19,7 @@ public class JobContext {
     }
 
     public JobContext(JobInfo jobInfo, String address, Integer port) {
-        this.jobCode = jobInfo.getJobCode();
+        this.jobId = jobInfo.getId();
         this.appName = jobInfo.getAppName();
         this.beanName = jobInfo.getBeanName();
         this.methodName = jobInfo.getMethodName();
@@ -29,12 +29,12 @@ public class JobContext {
         this.param = jobInfo.getParam();
     }
 
-    public Integer getJobCode() {
-        return jobCode;
+    public Long getJobId() {
+        return jobId;
     }
 
-    public void setJobCode(Integer jobCode) {
-        this.jobCode = jobCode;
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 
     public String getAppName() {

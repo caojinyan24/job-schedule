@@ -1,7 +1,6 @@
 package swa.db.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import swa.db.entity.ApplicationInfo;
 import swa.db.entity.JobInfo;
 import swa.db.mapper.ApplicationInfoMapper;
 import swa.db.mapper.JobInfoMapper;
+import swa.db.service.JobManagerService;
 import swa.db.service.ScheduleService;
 import swa.exception.JobScheduleException;
 import swa.exception.PreconditionUtil;
@@ -33,6 +33,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     private JobInfoMapper jobInfoMapper;
     @Resource
     private ApplicationInfoMapper applicationInfoMapper;
+    @Resource
+    private JobManagerService jobManagerService;
 
     /**
      * 组装并保存任务信息到数据库
@@ -51,10 +53,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         PreconditionUtil.check(!Strings.isNullOrEmpty(methodName), "methodName is empty");
         Integer port = (Integer) map.get("port");
         PreconditionUtil.check(null != port, "port is empty");
-        if (!jobInfoMapper.isExist(appName, beanName, methodName)) {
-            String joinName = Joiner.on(".").join(appName, beanName, methodName);
-            int hashCode = joinName.hashCode();
-            JobInfo jobInfo = new JobInfo(hashCode, appName, beanName, methodName);
+        if (!jobManagerService.isExist(appName, beanName, methodName)) {
+            JobInfo jobInfo = new JobInfo(jobManagerService.generateJobCode(appName, beanName, methodName),
+                    appName, beanName, methodName);
             try {
                 jobInfoMapper.insertJob(jobInfo);
             } catch (DuplicateKeyException e) {
@@ -69,8 +70,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    public JobContext getExecuteJobInfo(Integer jobCode) {
-        JobInfo jobInfo = jobInfoMapper.selectByJobCode(jobCode);
+
+
+    public JobContext getExecuteJobInfo(Long jobId) {
+        JobInfo jobInfo = jobInfoMapper.selectByJobId(jobId);
         ApplicationInfo applicationInfo = applicationInfoMapper.selectByAppName(jobInfo.getAppName());
         String address = "";
         if (Strings.isNullOrEmpty(jobInfo.getScheduleAddr())) {

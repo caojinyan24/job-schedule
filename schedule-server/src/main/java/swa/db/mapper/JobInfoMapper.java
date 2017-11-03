@@ -5,23 +5,19 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import swa.db.entity.JobInfo;
 
+import java.util.List;
+
 /**
  * Created by jinyan on 10/20/17 3:57 PM.
  */
 @Repository
 public interface JobInfoMapper {
-    JobInfo selectByJobCode(@Param("jobCode") Integer jobCode);
+    List<JobInfo> selectByJobCode(@Param("jobCode") Integer jobCode);
+    JobInfo selectByJobId(@Param("jobId") Long jobId);
 
-    Boolean isExist(@Param("appName") String appName, @Param("beanName") String beanName, @Param("methodName") String methodName);
 
     void insertJob(@Param("jobInfo") JobInfo jobs);
 
-//    public void add(JobInfo job);
-//
-//    public void update(JobInfo job);
-//
-//    public void deleteByPriKey(Long id);
-//
-//    public JobInfo queryByPriKey(Long id);
+
 
 }

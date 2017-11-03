@@ -17,14 +17,11 @@ package swa.job.register;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 向server服务器发送job信息
  */
 public class JobInfoSender extends ChannelInboundHandlerAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(JobInfoSender.class);
     private final String jobInfo;
 
     public JobInfoSender(String jobInfo) {

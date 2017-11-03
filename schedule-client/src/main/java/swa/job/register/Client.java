@@ -54,8 +54,6 @@ public class Client {
                             ch.pipeline().addLast(new DataDecoder());
                             ch.pipeline().addLast(new DataEncoder());
                             ch.pipeline().addLast(new JobInfoSender(jobInfo));
-
-
                         }
                     });
             Channel channel = b.connect(host, port).sync().channel();

@@ -47,10 +47,7 @@
         )
     </insert>
 
-    <select id="isExist" resultType="java.lang.Integer">
-        select count(*) from jobInfo
-        where app_name=#{appName},bean_name=#{beanName},method_name=#{methodName}
-    </select>
+
     <!--&lt;!&ndash;-->
     <!--方法名称: update-->
     <!--调用路径: Job.update-->
@@ -79,17 +76,17 @@
     <!--</update>-->
 
 
-    <select id="selectByJobCode" parameterType="java.lang.Integer" resultType="swa.db.entity.JobInfo">
+    <select id="selectByJobId" parameterType="java.lang.Long" resultType="swa.db.entity.JobInfo">
         SELECT
-        j.job_code AS jobCode
-        ,j.app_name AS appName
-        ,j.bean_name AS beanName
-        ,j.method_name AS methodName
-        ,j.cron_param AS cronParam
-        ,j.schedule_addr as scheduleAddr
-        FROM job AS j
+        job_code AS jobCode
+        ,app_name AS appName
+        ,bean_name AS beanName
+        ,method_name AS methodName
+        ,cron_param AS cronParam
+        ,schedule_addr as scheduleAddr
+        FROM job
         WHERE
-        j.job_code = #{jobCode}
+        id = #{jobId}
     </select>
 
 

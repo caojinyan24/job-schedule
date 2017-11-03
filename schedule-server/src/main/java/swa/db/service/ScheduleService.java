@@ -9,5 +9,5 @@ public interface ScheduleService {
 
     void saveJobInfo(String paramStr);
 
-    JobContext getExecuteJobInfo(Integer jobCode);
+    JobContext getExecuteJobInfo(Long jobId);
 }
