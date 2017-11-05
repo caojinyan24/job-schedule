@@ -76,4 +76,18 @@ public class JobInfo {
     public void setParam(String param) {
         this.param = param;
     }
+
+    @Override
+    public String toString() {
+        return "JobInfo{" +
+                "jobId=" + jobId +
+                ", appName='" + appName + '\'' +
+                ", beanName='" + beanName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", cronParam='" + cronParam + '\'' +
+                ", address='" + address + '\'' +
+                ", port=" + port +
+                ", param='" + param + '\'' +
+                '}';
+    }
 }

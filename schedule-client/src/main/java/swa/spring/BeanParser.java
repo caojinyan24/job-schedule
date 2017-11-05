@@ -39,6 +39,7 @@ public class BeanParser implements BeanPostProcessor {
                 jobInfo.setMethodName(method.getName());
                 jobInfo.setAppName(APP_NAME);
                 jobInfo.setPort(PORT);
+                logger.info("send info:{}", JSON.toJSONString(jobInfo));
                 new Runnable() {
                     public void run() {
                         try {

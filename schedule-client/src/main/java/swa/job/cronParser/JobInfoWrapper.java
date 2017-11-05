@@ -16,6 +16,20 @@ public class JobInfoWrapper extends JobInfo {
     Date currentExecuteTime;
     Date actualLastExecuteTime;
 
+    public JobInfoWrapper(JobInfo jobInfo) {
+        this.setJobId(jobInfo.getJobId());
+        setAppName(jobInfo.getAppName());
+        setBeanName(jobInfo.getBeanName());
+        setMethodName(jobInfo.getMethodName());
+        setPort(jobInfo.getPort());
+        setAddress(jobInfo.getAddress());
+        setCronParam(jobInfo.getCronParam());
+        setParam(jobInfo.getParam());
+        this.actualLastExecuteTime = null;
+        this.currentExecuteTime = null;
+        this.nextExecuteTime = new CronSequenceGenerator(getCronParam()).next(new Date());
+    }
+
     /**
      * 当前调用完成后做更新操作
      */
@@ -61,5 +75,14 @@ public class JobInfoWrapper extends JobInfo {
 
     public void setActualLastExecuteTime(Date actualLastExecuteTime) {
         this.actualLastExecuteTime = actualLastExecuteTime;
+    }
+
+    @Override
+    public String toString() {
+        return "JobInfoWrapper{" +
+                "nextExecuteTime=" + nextExecuteTime +
+                ", currentExecuteTime=" + currentExecuteTime +
+                ", actualLastExecuteTime=" + actualLastExecuteTime +
+                "} " + super.toString();
     }
 }

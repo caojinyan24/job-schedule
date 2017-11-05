@@ -92,4 +92,18 @@ public class JobContext {
     public void setPort(Integer port) {
         this.port = port;
     }
+
+    @Override
+    public String toString() {
+        return "JobContext{" +
+                "jobId=" + jobId +
+                ", appName='" + appName + '\'' +
+                ", beanName='" + beanName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", cronParam='" + cronParam + '\'' +
+                ", address='" + address + '\'' +
+                ", port=" + port +
+                ", param='" + param + '\'' +
+                '}';
+    }
 }

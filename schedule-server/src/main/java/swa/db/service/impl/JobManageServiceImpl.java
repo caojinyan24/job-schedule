@@ -58,7 +58,6 @@ public class JobManageServiceImpl implements JobManagerService {
             } else {
                 List<String> addrs = Splitter.on(",").splitToList(applicationInfo.getAddress());
                 address = addrs.get(new Random().nextInt() % addrs.size());
-                address += ":" + applicationInfo.getPort();
             }
         }
         return new JobContext(jobInfo, address, applicationInfo.getPort());

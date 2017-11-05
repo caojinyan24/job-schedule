@@ -31,19 +31,17 @@
     <insert id="insertJob" parameterType="swa.db.entity.JobInfo">
         INSERT INTO jobInfo
         (
-        job_name
+        job_code
         ,app_name
         ,bean_name
         ,method_name
-        ,cron_param
         )
         values
         (
-        #{jobName}
+        #{jobCode}
         ,#{appName}
         ,#{beanName}
         ,#{methodName}
-        ,#{cronParam}
         )
     </insert>
 
@@ -72,17 +70,44 @@
 
     <select id="selectByJobId" parameterType="java.lang.Long" resultType="swa.db.entity.JobInfo">
         SELECT
+        id as id
+        ,job_code AS jobCode
+        ,app_name AS appName
+        ,bean_name AS beanName
+        ,method_name AS methodName
+        ,cron_param AS cronParam
+        ,schedule_addr as scheduleAddr
+        FROM jobInfo
+        WHERE
+        id = #{jobId}
+    </select>
+
+    <select id="selectByJobCode" parameterType="java.lang.Integer" resultType="swa.db.entity.JobInfo">
+        SELECT
         job_code AS jobCode
         ,app_name AS appName
         ,bean_name AS beanName
         ,method_name AS methodName
         ,cron_param AS cronParam
         ,schedule_addr as scheduleAddr
-        FROM job
+        FROM jobInfo
         WHERE
-        id = #{jobId}
+        id = #{jobCode}
     </select>
 
+    <select id="selectByUniqKey" resultType="swa.db.entity.JobInfo">
+    SELECT
+    id as id
+        ,job_code AS jobCode
+        ,app_name AS appName
+        ,bean_name AS beanName
+        ,method_name AS methodName
+        ,cron_param AS cronParam
+        ,schedule_addr as scheduleAddr
+        FROM jobInfo
+        WHERE
+        app_name = #{appName} and bean_name=#{beanName} and method_name=#{methodName}
+</select>
 
     <!--&lt;!&ndash;-->
     <!--方法名称: queryPagenationList-->

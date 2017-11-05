@@ -61,7 +61,13 @@ public class JobRegister {
         }
 
         ApplicationInfo applicationInfo = applicationInfoMapper.selectByAppName(appName);
-        if (applicationInfo == null || !applicationInfo.getPort().equals(port)) {
+        if (applicationInfo == null) {
+            applicationInfo = new ApplicationInfo();
+            applicationInfo.setAppName(appName);
+        }
+        if (!port.equals(applicationInfo.getPort())) {
+            applicationInfo.setAddress("127.0.0.1");//todo 后边改成从页面修改
+            applicationInfo.setPort(port);
             applicationInfoMapper.insertOrUpdateApplicationInfo(applicationInfo);
         }
     }
@@ -69,6 +75,7 @@ public class JobRegister {
     public void registerJob(String jobInfoStr) {
         JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
         saveJobInfo(jobInfoStr);
+        jobInfo = jobInfoMapper.selectByUniqKey(jobInfo.getAppName(), jobInfo.getBeanName(), jobInfo.getMethodName());
         scheduleExecutor.sendJob(jobInfo.getId());
     }
 

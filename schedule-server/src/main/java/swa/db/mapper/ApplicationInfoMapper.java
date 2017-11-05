@@ -20,6 +20,6 @@ public interface ApplicationInfoMapper {
 //
     ApplicationInfo selectByAppName(@Param("appName") String appName);
 
-    ApplicationInfo insertOrUpdateApplicationInfo(ApplicationInfo applicationInfo);
+    void insertOrUpdateApplicationInfo(ApplicationInfo applicationInfo);
 
 }

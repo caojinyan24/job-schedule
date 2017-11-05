@@ -27,7 +27,7 @@
     调用路径: Application.insert
     -->
     <insert id="insertOrUpdateApplicationInfo" parameterType="swa.db.entity.ApplicationInfo">
-        INSERT INTO applicationInfo /* 应用表 */
+        INSERT INTO applicationInfo
         (
         app_name
         ,address
@@ -38,7 +38,7 @@
         #{appName}
         ,#{address}
         ,#{port}
-        ) on duplicate key UPDATE app_name,address,port
+        ) on duplicate key UPDATE address=VALUES(address) ,port=VALUES (port)
     </insert>
 
 
@@ -110,11 +110,11 @@
     -->
     <select id="selectByAppName" parameterType="java.lang.String" resultType="swa.db.entity.ApplicationInfo">
         SELECT
-        ,a.app_name AS appName
-        ,a.address AS address
-        ,a.port as port
-        FROM application AS a
-        WHERE a.app_name=#{appName}
+        app_name AS appName
+        ,address AS address
+        ,port as port
+        FROM applicationInfo
+        WHERE app_name=#{appName}
     </select>
 
 </mapper>

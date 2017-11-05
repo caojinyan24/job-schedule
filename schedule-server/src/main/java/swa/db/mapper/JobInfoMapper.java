@@ -16,10 +16,12 @@ public interface JobInfoMapper {
 
     JobInfo selectByJobId(@Param("jobId") Long jobId);
 
-    void updateJobInfo(@Param("jobInfo") JobInfo jobInfo);
+    void updateJobInfo(JobInfo jobInfo);
 
 
-    void insertJob(@Param("jobInfo") JobInfo jobs);
+    void insertJob(JobInfo jobs);
+
+    JobInfo selectByUniqKey(@Param("appName") String appName, @Param("beanName") String beanName, @Param("methodName") String methodName);
 
 
 }

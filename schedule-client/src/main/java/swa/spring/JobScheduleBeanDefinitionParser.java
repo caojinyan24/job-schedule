@@ -40,6 +40,8 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
             parserContext.getRegistry().registerBeanDefinition(QSCHEDULE_ANNOTATION, annotation);
         }
         final Integer port = Integer.valueOf(element.getAttribute("port"));
+        BeanParser.setPORT(port);
+
         Thread thread = new Thread(new Runnable() {
             public void run() {
                 try {

@@ -28,6 +28,12 @@ public class JobController {
     @Resource
     private JobExecutor scheduleExecutor;
 
+    public static void main(String[] args) {
+        JobInfo jobInfo = new JobInfo();
+        jobInfo.setJobCode(33);
+        jobInfo.setCronParam("* * * * * ?");
+        System.out.println(JSON.toJSONString(jobInfo));
+    }
 
     @RequestMapping("/executeNow")
     public String scheduleJob(@RequestParam("jobId") Long jobId) {

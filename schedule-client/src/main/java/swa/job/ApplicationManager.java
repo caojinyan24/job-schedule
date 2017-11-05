@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * Created by jinyan on 10/30/17 1:44 PM.
  */
-public class ApplicationManager<T> implements ApplicationContextAware {
+public class ApplicationManager implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
     public static <T> T getBean(String beanName) {

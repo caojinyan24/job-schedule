@@ -38,9 +38,9 @@ public class ScheduleJobList {
      * @param jobInfo
      */
     public void addJob(JobInfo jobInfo) {
-        JobInfoWrapper jobInfoWrapper = new JobInfoWrapper();
-        // TODO: 11/3/17 组装
+        JobInfoWrapper jobInfoWrapper = new JobInfoWrapper(jobInfo);
         list.add(jobInfoWrapper);
+        logger.debug("list:{}", list);
     }
 
     /**
