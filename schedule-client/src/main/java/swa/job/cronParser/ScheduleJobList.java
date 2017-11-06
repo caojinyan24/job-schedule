@@ -51,4 +51,9 @@ public class ScheduleJobList {
     public void addJob(JobInfoWrapper jobInfoWrapper) {
         list.add(jobInfoWrapper);
     }
+
+    @Override
+    public String toString() {
+        return list.toString();
+    }
 }

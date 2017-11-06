@@ -5,7 +5,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import swa.job.ApplicationManager;
+import swa.job.ApplicationLoader;
 import swa.job.schedule.Server;
 
 
@@ -36,8 +36,8 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
         BeanParser.setAppName(element.getAttribute("appName"));
 
         if (!parserContext.getRegistry().containsBeanDefinition(QSCHEDULE_ANNOTATION)) {
-            RootBeanDefinition annotation = new RootBeanDefinition(ApplicationManager.class);
-            parserContext.getRegistry().registerBeanDefinition(QSCHEDULE_ANNOTATION, annotation);
+            RootBeanDefinition applicationLoader = new RootBeanDefinition(ApplicationLoader.class);
+            parserContext.getRegistry().registerBeanDefinition(QSCHEDULE_ANNOTATION, applicationLoader);
         }
         final Integer port = Integer.valueOf(element.getAttribute("port"));
         BeanParser.setPORT(port);

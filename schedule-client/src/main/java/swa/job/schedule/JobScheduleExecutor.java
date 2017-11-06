@@ -3,7 +3,7 @@ package swa.job.schedule;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import swa.job.ApplicationManager;
+import swa.job.ApplicationLoader;
 import swa.job.JobInfo;
 import swa.job.cronParser.JobInfoWrapper;
 import swa.job.cronParser.ScheduleJobList;
@@ -34,15 +34,11 @@ public class JobScheduleExecutor {
      */
     public static void addJob(String jobInfoStr) {
         JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
-        logger.debug("addJob：{}", jobInfo);
         if (null == jobInfo.getCronParam() || "".equals(jobInfo.getCronParam())) {
             executeNowJobs.add(jobInfo);
             startOnceJobs();
         } else {
-//            JobInfo current = executingJobs.get(jobInfo.getJobId());
-//            if (current != null) {
             executingJobs.put(jobInfo.getJobId(), jobInfo);
-//            }
             jobs.addJob(jobInfo);
             startRepeatedJobs();
 
@@ -67,7 +63,6 @@ public class JobScheduleExecutor {
             while (true) {
                 final JobInfoWrapper jobInfoWrapper = jobs.getJob();
                 if (jobInfoWrapper != null) {
-
                     logger.debug("jobInfoWrapper:{}", jobInfoWrapper);
                     service.schedule(new Runnable() {
                         public void run() {
@@ -87,33 +82,28 @@ public class JobScheduleExecutor {
      * @param jobInfoWrapper
      */
     private void executeRepeat(final JobInfoWrapper jobInfoWrapper) {
-        //        this.localAddress = RemotingUtil.getLocalAddress();
-
         JobInfo jobInfo = executingJobs.get(jobInfoWrapper.getJobId());
-        logger.debug("execute:{}", jobInfo);
         if (jobInfoWrapper.canExecute(jobInfo)) {//判断当前的jobInfo和下次执行时间是不是当前时间
             //todo 判断当前机器是否可执行    要求传的job中address不能为空
-            logger.debug("aa");
             executeNow(jobInfoWrapper);
             jobs.addJob(jobInfoWrapper.updateExecuteTimes());
-            logger.debug("executeRepeat:{}", jobs);
         } else {
             jobs.addJob(jobInfo);
-            logger.debug("executeRepeat:{}", jobs);
 
         }
     }
 
     private void executeNow(JobInfo jobInfo) {
-        logger.debug("bb");
         try {
-            logger.debug("appliacton:{}", ApplicationManager.getBean(jobInfo.getBeanName()));
-
-            if (null != ApplicationManager.getBean(jobInfo.getBeanName())) {
-                logger.debug("cc");
+            if (null != ApplicationLoader.getBean(jobInfo.getBeanName())) {
                 try {
-                    Method method = ApplicationManager.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
-                    method.invoke(ApplicationManager.getBean(jobInfo.getBeanName()).getClass(), jobInfo.getParam());
+                    if (null != jobInfo.getParam()) {
+                        Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), jobInfo.getParam().getClass());
+                        method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()), jobInfo.getParam());
+                    } else {
+                        Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
+                        method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()));
+                    }
                     // TODO: 11/3/17 执行完成后，向server端发送执行记录，保存在历史表中
                 } catch (Exception e) {
 //                throw new RuntimeException("方法调用失败", e);
@@ -123,6 +113,8 @@ public class JobScheduleExecutor {
         } catch (Exception e) {
             logger.error("error", e);
         }
+
+
     }
 }
 

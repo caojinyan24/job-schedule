@@ -32,7 +32,12 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
         if (paramStr == null || paramStr == "") {
             return;
         }
-        JobScheduleExecutor.addJob(paramStr);
+        Thread thread=new Thread(new Runnable() {
+            public void run() {
+                JobScheduleExecutor.addJob(paramStr);
+            }
+        });
+        thread.start();
         ctx.write("ADD SUCCESS");
 
     }

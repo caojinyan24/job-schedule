@@ -21,6 +21,10 @@ client跟server用的Server类放在了一个包里，导致一个serverclass文
 最终发现问题出错的原因是加载配置文件的时候，使用了classpath*,修改成classpath之后，问题单测可正常运行。查了下，classpath和classpath*还时有区别的。
 
 还有个无故好了的问题，之前在控制台执行maven的打包命令报各种依赖插件找不到，今天重新试了下居然好了;而且现在勾选上localprofile，打出的jar包中也包含了resources的文件
+
+
+client模块获得applicationcontext再次莫名失败，调用getbean的时候报空指针:问题原因：当调用到这个方法时，spring还未完成加载，所以获取到null；而在getbean时，需要获取synchronize锁，所以阻塞线程，spring一直未能完成加载，所以一直获取到null。首先调用修改为异步调用，不能让job启动的动作阻塞线程，影响spring的后续加载，一旦加载完成，这个job就可以正常启动
+
 todo
 添加mybatis相关配置
 添加web页面

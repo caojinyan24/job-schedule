@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Created by jinyan on 10/31/17 12:21 PM.
  */
 @Component
-public class ApplicationManager<T> implements ApplicationContextAware {
+public class ApplicationManager implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationManager.class);
     private static ApplicationContext applicationContext;
 
