@@ -31,26 +31,47 @@
     <!--</trim>-->
     <!--</sql>-->
 
-    <!--
-    方法名称: insert
-    调用路径: ScheduleHistory.insert
-    -->
-    <insert id="insert" parameterType="Object">
-        INSERT INTO schedule_history /* 调度历史 */
+
+    <insert id="insertHistory" parameterType="swa.db.entity.ScheduleHistory">
+        INSERT INTO schedule_history
         (
-        job_name
-        ,schedule_address
-        ,schedule_param
-        ,execute_time
-        ,execute_status
+        <trim suffixOverrides=",">
+            <if test="jobId != null">
+                job_id ,
+            </if>
+            <if test="scheduleAddress != null">
+                schedule_address ,
+            </if>
+            <if test="scheduleParam != null">
+                schedule_param ,
+            </if>
+            <if test="executeTime != null">
+                execute_time ,
+            </if>
+            <if test="executeStatus != null">
+                execute_status ,
+            </if>
+        </trim>
         )
         values
         (
-        #{jobName}
-        ,#{scheduleAddress}
-        ,#{scheduleParam}
-        ,#{executeTime}
-        ,#{executeStatus}
+        <trim suffixOverrides=",">
+            <if test="jobId != null">
+                #{jobId},
+            </if>
+            <if test="scheduleAddress != null">
+                #{scheduleAddress},
+            </if>
+            <if test="scheduleParam != null">
+                #{scheduleParam},
+            </if>
+            <if test="executeTime != null">
+                #{executeTime},
+            </if>
+            <if test="executeStatus != null">
+                #{executeStatus},
+            </if>
+        </trim>
         )
     </insert>
 

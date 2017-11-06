@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import swa.db.entity.JobInfo;
 import swa.db.service.JobManagerService;
+import swa.db.service.JobScheduleService;
 import swa.job.common.JobContext;
 import swa.job.schedule.JobExecutor;
 import swa.rpc.Client;
@@ -27,6 +29,8 @@ public class JobController {
     private JobManagerService jobManagerService;
     @Resource
     private JobExecutor scheduleExecutor;
+    @Resource
+    private JobScheduleService jobScheduleService;
 
     public static void main(String[] args) {
         JobInfo jobInfo = new JobInfo();
@@ -36,6 +40,7 @@ public class JobController {
     }
 
     @RequestMapping("/executeNow")
+    @ResponseBody
     public String scheduleJob(@RequestParam("jobId") Long jobId) {
         JobContext jobContext = jobManagerService.getExecuteJobInfo(jobId);
         String jsonStr = JSON.toJSONString(jobContext);
@@ -45,10 +50,12 @@ public class JobController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        jobScheduleService.addJobScheduleHistory(jobContext);
         return "submit success";
     }
 
     @RequestMapping("/modifyJobInfo")
+    @ResponseBody
     public String modifyJobInfo(@RequestParam("jobInfo") JobInfo jobInfo) {
         //保存信息到数据库
         jobManagerService.saveJobInfo(jobInfo);

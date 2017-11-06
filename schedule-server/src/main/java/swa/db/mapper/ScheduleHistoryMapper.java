@@ -11,7 +11,7 @@ import swa.db.entity.ScheduleHistory;
 @Repository
 public interface ScheduleHistoryMapper {
 
-    public void add(ScheduleHistory scheduleHistory);
+     void insertHistory(ScheduleHistory scheduleHistory);
 //
 //    public void update(ScheduleHistory scheduleHistory);
 //

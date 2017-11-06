@@ -34,7 +34,7 @@ public class JobScheduleExecutor {
      */
     public static void addJob(String jobInfoStr) {
         JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
-        if (null == jobInfo.getCronParam() || "".equals(jobInfo.getCronParam())) {
+        if (null == jobInfo.getCronParam() || jobInfo.getCronParam().length() == 0) {
             executeNowJobs.add(jobInfo);
             startOnceJobs();
         } else {
@@ -96,25 +96,17 @@ public class JobScheduleExecutor {
     private void executeNow(JobInfo jobInfo) {
         try {
             if (null != ApplicationLoader.getBean(jobInfo.getBeanName())) {
-                try {
-                    if (null != jobInfo.getParam()) {
-                        Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), jobInfo.getParam().getClass());
-                        method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()), jobInfo.getParam());
-                    } else {
-                        Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
-                        method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()));
-                    }
-                    // TODO: 11/3/17 执行完成后，向server端发送执行记录，保存在历史表中
-                } catch (Exception e) {
-//                throw new RuntimeException("方法调用失败", e);
-                    logger.error("invoke error:", e);
+                if (null != jobInfo.getParam()) {
+                    Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), jobInfo.getParam().getClass());
+                    method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()), jobInfo.getParam());
+                } else {
+                    Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
+                    method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()));
                 }
             }
         } catch (Exception e) {
             logger.error("error", e);
         }
-
-
     }
 }
 
