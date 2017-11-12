@@ -1,48 +1,60 @@
-//package swa.controller;
-//
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.ModelMap;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.servlet.ModelAndView;
-//import swa.job.common.entity.Application;
-//
-//
-///**
-// * ApplicationController  应用表
-// * Created by jinyan.cao on 2017-10-23 18:37:54
-// */
-//@Controller
-//@RequestMapping("/application")
-//public class ApplicationController  {
-//
-//    private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
-//    @Autowired
-//    private ApplicationService applicationService;
-//
-//    /**
-//     * 列表页面
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "applicationIndex", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ModelAndView applicationIndex(@ModelAttribute Application query,
-//                                         @RequestParam(required = false, value = "pageNo", defaultValue = "1") int pageNo,
-//                                         @RequestParam(required = false, value = "pageSize", defaultValue = "10") int pageSize) {
-//        PageQuery<Application> pageQuery = new PageQuery<Application>();
-//        pageQuery.setPageNo(pageNo);
-//        pageQuery.setPageSize(pageSize);
-//        ModelAndView mav = new ModelAndView();
-//        pageQuery.setQuery(query);
-//        mav.addObject("query", query);
-//        mav.setViewName("manage/applicationIndex");
-//        mav.addObject("pageInfos", SystemTools.convertPaginatedList(applicationService.queryApplicationPageList(pageQuery)));
-//        return mav;
-//    }
-//
+package swa.controller;
+
+
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import swa.db.entity.ApplicationInfo;
+import swa.service.ApplicationService;
+
+import javax.annotation.Resource;
+
+
+/**
+ * ApplicationController  应用表
+ * Created by jinyan.cao on 2017-10-23 18:37:54
+ */
+@Controller
+@RequestMapping("/app")
+public class ApplicationController {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+    @Resource
+    private ApplicationService applicationService;
+
+    /**
+     * 列表页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "applicationIndex", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView applicationIndex() {
+        ModelAndView modelAndView = new ModelAndView("/app/appIndex");
+        modelAndView.addObject("appInfos", applicationService.queryApplicationInfo());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "appInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView applicationIndex(@RequestParam("appName")String appName) {
+        ModelAndView modelAndView = new ModelAndView("app/appInfo");
+        modelAndView.addObject("appInfo", applicationService.queryByAppName( appName));
+        return modelAndView;
+
+    }
+
+    public static void main(String[] args) {
+        ApplicationInfo applicationInfo=new ApplicationInfo();
+        applicationInfo.setAppName("aa");
+        applicationInfo.setAddress("127.0.0.1");
+        applicationInfo.setPort(8080);
+        System.out.println(JSON.toJSONString(Lists.newArrayList(applicationInfo)));
+    }
+
 //    /**
 //     * 详情
 //     *
@@ -138,7 +150,7 @@
 //        }
 //        return j;
 //    }
-//
-//
-//}
-//
+
+
+}
+

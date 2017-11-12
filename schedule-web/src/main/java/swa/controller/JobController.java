@@ -2,6 +2,7 @@ package swa.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import javax.annotation.Resource;
  * Created by jinyan.cao on 2017-10-23 18:37:55
  */
 @Controller
+@RequestMapping("job")
 public class JobController {
     private static final Logger logger = LoggerFactory.getLogger(JobController.class);
     @Resource
@@ -32,12 +34,6 @@ public class JobController {
     @Resource
     private JobScheduleService jobScheduleService;
 
-    public static void main(String[] args) {
-        JobInfo jobInfo = new JobInfo();
-        jobInfo.setJobCode(33);
-        jobInfo.setCronParam("* * * * * ?");
-        System.out.println(JSON.toJSONString(jobInfo));
-    }
 
     @RequestMapping("/executeNow")
     @ResponseBody
@@ -48,7 +44,7 @@ public class JobController {
         try {
             client.start();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("scheduleJob error:", e);
         }
         jobScheduleService.addJobScheduleHistory(jobContext);
         return "submit success";
@@ -64,6 +60,11 @@ public class JobController {
         return "success";
     }
 
-
+    public static void main(String[] args) {
+        JobInfo applicationInfo=new JobInfo();
+        applicationInfo.setAppName("aa");
+        applicationInfo.setPort(8080);
+        System.out.println(JSON.toJSONString(Lists.newArrayList(applicationInfo)));
+    }
 }
 

@@ -41,6 +41,15 @@
         ) on duplicate key UPDATE address=VALUES(address) ,port=VALUES (port)
     </insert>
 
+    <select id="queryApplicationInfos" resultType="swa.db.entity.ApplicationInfo">
+        select
+        id as id,
+        app_name as appName,
+        address as address,
+        port as port
+        from applicationInfo
+    </select>
+
 
     <!--&lt;!&ndash;-->
     <!--方法名称: update-->

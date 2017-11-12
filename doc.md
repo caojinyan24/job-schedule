@@ -25,6 +25,6 @@ client跟server用的Server类放在了一个包里，导致一个serverclass文
 
 client模块获得applicationcontext再次莫名失败，调用getbean的时候报空指针:问题原因：当调用到这个方法时，spring还未完成加载，所以获取到null；而在getbean时，需要获取synchronize锁，所以阻塞线程，spring一直未能完成加载，所以一直获取到null。首先调用修改为异步调用，不能让job启动的动作阻塞线程，影响spring的后续加载，一旦加载完成，这个job就可以正常启动
 
-todo
-添加mybatis相关配置
-添加web页面
+
+
+接下来又要开始页面部分了，

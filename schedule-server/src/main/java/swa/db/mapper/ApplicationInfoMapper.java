@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import swa.db.entity.ApplicationInfo;
 
+import java.util.List;
+
 /**
  * ApplicationInfoMapper
  * Created by jinyan.cao on 2017-10-23 18:37:54
@@ -12,8 +14,9 @@ import swa.db.entity.ApplicationInfo;
 @Repository
 public interface ApplicationInfoMapper {
 
-    //    public void add(ApplicationInfo ApplicationInfo);
-//
+    List<ApplicationInfo> queryApplicationInfos();
+
+    //
 //    public void update(ApplicationInfo ApplicationInfo);
 //
 //    public void deleteByPriKey(Long id);
