@@ -16,14 +16,15 @@
 package swa.job.schedule;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.channel.ChannelPromise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 向client请求任务调度
  */
-public class JobScheduleInvoker extends ChannelInboundHandlerAdapter {
+public class JobScheduleInvoker extends ChannelOutboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobScheduleInvoker.class);
     private String jobInfo;
 
@@ -33,22 +34,9 @@ public class JobScheduleInvoker extends ChannelInboundHandlerAdapter {
     public JobScheduleInvoker(String jobInfo) {
         this.jobInfo = jobInfo;
     }
-
-    //发送调度信息
     @Override
-    public void channelActive(ChannelHandlerContext ctx) {
-        ctx.writeAndFlush(jobInfo);
-
-    }
-
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ctx.write(msg);
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        ctx.write(jobInfo, promise);
     }
 
     @Override

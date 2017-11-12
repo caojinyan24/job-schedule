@@ -11,7 +11,7 @@
 
     <aop:aspectj-autoproxy/>
     <context:component-scan base-package="swa.db.mapper"/>
-    <context:property-placeholder location="classpath*:db.properties"
+    <context:property-placeholder location="classpath:db.properties"
                                   local-override="true" file-encoding="utf-8" ignore-unresolvable="true"
                                   ignore-resource-not-found="false"/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"

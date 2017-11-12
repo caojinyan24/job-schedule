@@ -58,11 +58,8 @@ public class Client {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DataDecoder());
+                            ch.pipeline().addFirst(new JobScheduleInvoker(jobInfo));
                             ch.pipeline().addLast(new DataEncoder());
-                            ch.pipeline().addLast(new JobScheduleInvoker(jobInfo));
-
-
                         }
                     });
             channel = b.connect(host, port).sync().channel();
