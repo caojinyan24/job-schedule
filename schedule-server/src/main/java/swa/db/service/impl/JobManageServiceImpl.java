@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import swa.db.entity.ApplicationInfo;
+import swa.db.entity.App;
 import swa.db.entity.JobInfo;
-import swa.db.mapper.ApplicationInfoMapper;
+import swa.db.mapper.AppMapper;
 import swa.db.mapper.JobInfoMapper;
 import swa.db.service.JobManagerService;
 import swa.exception.JobScheduleException;
@@ -28,7 +28,7 @@ public class JobManageServiceImpl implements JobManagerService {
     @Resource
     private JobInfoMapper jobInfoMapper;
     @Resource
-    private ApplicationInfoMapper applicationInfoMapper;
+    private AppMapper applicationInfoMapper;
 
     public Boolean isExist(String appName, String beanName, String methodName) {
         Integer hashCode = generateJobCode(appName, beanName, methodName);
@@ -50,7 +50,7 @@ public class JobManageServiceImpl implements JobManagerService {
 
     public JobContext getExecuteJobInfo(Long jobId) {
         JobInfo jobInfo = jobInfoMapper.selectByJobId(jobId);
-        ApplicationInfo applicationInfo = applicationInfoMapper.selectByAppName(jobInfo.getAppName());
+        App applicationInfo = applicationInfoMapper.selectByAppName(jobInfo.getAppName());
         String address = "";
         if (Strings.isNullOrEmpty(jobInfo.getScheduleAddr())) {
             if (Strings.isNullOrEmpty(applicationInfo.getAddress())) {
@@ -65,6 +65,12 @@ public class JobManageServiceImpl implements JobManagerService {
 
     public void saveJobInfo(JobInfo jobInfo) {
         jobInfoMapper.updateJobInfo(jobInfo);
+    }
+
+    public List<JobInfo> selectByAppName(String appName) {
+        JobInfo jobInfo=new JobInfo();
+        jobInfo.setAppName(appName);
+        return jobInfoMapper.selectSelective(jobInfo);
     }
 
 

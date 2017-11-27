@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="swa.db.mapper.JobInfoMapper">
-    <!--&lt;!&ndash; 查询条件 &ndash;&gt;-->
-    <!--<sql id="wherecontation">-->
-    <!--<trim suffixOverrides=",">-->
-    <!--<if test="query.jobName != null and query.jobName != ''">-->
-    <!--AND j.job_name = #{query.jobName}-->
-    <!--</if>-->
-    <!--<if test="query.appName != null and query.appName != ''">-->
-    <!--AND j.app_name = #{query.appName}-->
-    <!--</if>-->
-    <!--<if test="query.beanName != null and query.beanName != ''">-->
-    <!--AND j.bean_name = #{query.beanName}-->
-    <!--</if>-->
-    <!--<if test="query.methodName != null and query.methodName != ''">-->
-    <!--AND j.method_name = #{query.methodName}-->
-    <!--</if>-->
-    <!--<if test="query.cronParam != null and query.cronParam != ''">-->
-    <!--AND j.cron_param = #{query.cronParam}-->
-    <!--</if>-->
-    <!--<if test="query.createTime != null and query.createTime != ''">-->
-    <!--AND j.create_time = #{query.createTime}-->
-    <!--</if>-->
-    <!--<if test="query.updateTime != null and query.updateTime != ''">-->
-    <!--AND j.update_time = #{query.updateTime}-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--</sql>-->
+
+    <select id="selectSelective" resultType="swa.db.entity.JobInfo" parameterType="swa.db.entity.JobInfo">
+        select job_name as jobName,
+        app_name as appName,
+        bean_name as beanName,
+        method_name as methodName,
+        cron_param as cronParam
+        from jobInfo
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="jobName != null and jobName != ''">
+                AND j.job_name = #{jobName}
+            </if>
+            <if test="appName != null and appName != ''">
+                AND j.app_name = #{appName}
+            </if>
+            <if test="beanName != null and beanName != ''">
+                AND j.bean_name = #{beanName}
+            </if>
+            <if test="methodName != null and methodName != ''">
+                AND j.method_name = #{methodName}
+            </if>
+            <if test="cronParam != null and cronParam != ''">
+                AND j.cron_param = #{cronParam}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                AND j.create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                AND j.update_time = #{updateTime}
+            </if>
+        </trim>
+    </select>
 
     <insert id="insertJob" parameterType="swa.db.entity.JobInfo">
         INSERT INTO jobInfo
@@ -46,10 +53,6 @@
     </insert>
 
 
-    <!--
-    方法名称: update
-    调用路径: Job.update
-    -->
     <update id="updateJobInfo" parameterType="swa.db.entity.JobInfo">
         UPDATE jobInfo
         <trim prefix="SET" suffixOverrides=",">
@@ -109,25 +112,5 @@
         app_name = #{appName} and bean_name=#{beanName} and method_name=#{methodName}
 </select>
 
-    <!--&lt;!&ndash;-->
-    <!--方法名称: queryPagenationList-->
-    <!--调用路径: Job.queryPagenationList-->
-    <!--&ndash;&gt;-->
-    <!--<select id="queryPagenationList" parameterType="Object" resultType="swa.db.entity.Job">-->
-    <!--SELECT-->
-    <!--j.id AS id-->
-    <!--,j.job_name AS jobName-->
-    <!--,j.app_name AS appName-->
-    <!--,j.bean_name AS beanName-->
-    <!--,j.method_name AS methodName-->
-    <!--,j.cron_param AS cronParam-->
-    <!--,j.create_time AS createTime-->
-    <!--,j.update_time AS updateTime-->
-    <!--FROM job AS j-->
-    <!--WHERE 1=1-->
-    <!--<include refid="wherecontation"/>-->
-    <!--ORDER BY j.id DESC-->
-    <!--LIMIT #{startRow}-->
-    <!--,#{pageSize}-->
-    <!--</select>-->
+
 </mapper>

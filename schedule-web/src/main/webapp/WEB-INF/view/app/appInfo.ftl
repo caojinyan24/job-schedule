@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Template for Bootstrap</title>
-    <!-- Bootstrap core CSS -->
-    <link href="/js/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/js/dist/css/dashboard.css" rel="stylesheet">
-</head>
-<body>
+<#import "../common/layout.ftl" as layout>
+<@layout.layout>
+<h2 class="sub-header">应用详情</h2>
+
 <div>
     <div class="panel-body">
-        <form class="form-horizontal" role="form" id="dailogForm" action="../application/applicationAdd.do" method="POST">
-            <input type="hidden" id="btn_sub" class="btn_sub"/>
-            <div class="form-group mno">
-                <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">应用名</label>
-                <div class="col-sm-8">
-                    <input type="text" value="${appInfo.appName}" name="appName" id="appName" class="form-control"
-                           placeholder="应用名"/>
-                </div>
-            </div>
+        <form class="form-horizontal" role="form" id="dailogForm">
+            <input type="hidden" id="appName" name="appName" value="${appInfo.appName}"/>
             <div class="form-group mno">
                 <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">服务器地址</label>
                 <div class="col-sm-8">
@@ -31,16 +16,31 @@
             <div class="form-group mno">
                 <label for="inputEmail3" class="col-sm-2 control-label" style="text-align:left;">端口号</label>
                 <div class="col-sm-8">
-                    <input type="text" value="${appInfo.port}" name="port" id="port" class="form-control"
-                           placeholder="服务器地址"/>
+
+                    <input type="text" pattern="[1-9][0-9]{1,5}" value="${appInfo.port.toString()}" name="port" id="port" class="form-control"
+                           placeholder="端口号"/>
                 </div>
             </div>
+
         </form>
+        <a class="btn btn-primary" role="button" name="submit"  onclick="saveInfo()">保存</a>
+        <a class="btn btn-primary" role="button" href="/job/jobs?appName=${appInfo.appName}">查看任务信息</a>
+
     </div>
-    <script type="text/javascript" src="/resources/js/Validform_v5.3.2.js"></script>
-    <script type="text/javascript" src="/resources/js/forminit.js"></script>
-
 </div>
-</body>
+</@layout.layout>
+<script>
+    function saveInfo(){
+        jQuery.ajax({
+            type: "GET",
+            url: "/app/appSave",
+            data: $("#dailogForm").serialize(),
+            contentType: "json",
+            async: false,
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
 
-</html>

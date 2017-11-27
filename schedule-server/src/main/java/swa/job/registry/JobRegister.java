@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import swa.db.entity.ApplicationInfo;
+import swa.db.entity.App;
 import swa.db.entity.JobInfo;
-import swa.db.mapper.ApplicationInfoMapper;
+import swa.db.mapper.AppMapper;
 import swa.db.mapper.JobInfoMapper;
 import swa.db.service.JobManagerService;
 import swa.exception.PreconditionUtil;
@@ -27,7 +27,7 @@ public class JobRegister {
     @Resource
     private JobInfoMapper jobInfoMapper;
     @Resource
-    private ApplicationInfoMapper applicationInfoMapper;
+    private AppMapper appMapper;
     @Resource
     private JobManagerService jobManagerService;
     @Resource
@@ -60,15 +60,15 @@ public class JobRegister {
             }
         }
 
-        ApplicationInfo applicationInfo = applicationInfoMapper.selectByAppName(appName);
+        App applicationInfo = appMapper.selectByAppName(appName);
         if (applicationInfo == null) {
-            applicationInfo = new ApplicationInfo();
+            applicationInfo = new App();
             applicationInfo.setAppName(appName);
         }
         if (!port.equals(applicationInfo.getPort())) {
             applicationInfo.setAddress("127.0.0.1");//todo 后边改成从页面修改
             applicationInfo.setPort(port);
-            applicationInfoMapper.insertOrUpdateApplicationInfo(applicationInfo);
+            appMapper.insertOrUpdate(applicationInfo);
         }
     }
 

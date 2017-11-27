@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="swa.db.mapper.ApplicationInfoMapper">
+<mapper namespace="swa.db.mapper.AppMapper">
 
     <!--&lt;!&ndash; 查询条件 &ndash;&gt;-->
     <!--<sql id="wherecontation">-->
@@ -26,7 +26,7 @@
     方法名称: insert
     调用路径: Application.insert
     -->
-    <insert id="insertOrUpdateApplicationInfo" parameterType="swa.db.entity.ApplicationInfo">
+    <insert id="insertOrUpdateApp" parameterType="swa.db.entity.App">
         INSERT INTO applicationInfo
         (
         app_name
@@ -41,7 +41,7 @@
         ) on duplicate key UPDATE address=VALUES(address) ,port=VALUES (port)
     </insert>
 
-    <select id="queryApplicationInfos" resultType="swa.db.entity.ApplicationInfo">
+    <select id="queryApps" resultType="swa.db.entity.App">
         select
         id as id,
         app_name as appName,
@@ -51,29 +51,19 @@
     </select>
 
 
-    <!--&lt;!&ndash;-->
-    <!--方法名称: update-->
-    <!--调用路径: Application.update-->
-    <!--&ndash;&gt;-->
-    <!--<update id="update" parameterType="swa.db.entity.Application">-->
-    <!--UPDATE application /* 应用表 */-->
-    <!--<trim prefix="SET" suffixOverrides=",">-->
-    <!--<if test="appName != null">-->
-    <!--app_name = #{appName},-->
-    <!--</if>-->
-    <!--<if test="address != null">-->
-    <!--address = #{address},-->
-    <!--</if>-->
-    <!--<if test="createTime != null">-->
-    <!--create_time = #{createTime},-->
-    <!--</if>-->
-    <!--<if test="updateTime != null">-->
-    <!--update_time = #{updateTime},-->
-    <!--</if>-->
-    <!--</trim>-->
-    <!--WHERE-->
-    <!--id = #{id}-->
-    <!--</update>-->
+    <update id="update" parameterType="swa.db.entity.App">
+        UPDATE appInfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="port != null">
+                port = #{port},
+            </if>
+        </trim>
+        WHERE
+        app_name = #{appName}
+    </update>
 
     <!--&lt;!&ndash;-->
     <!--方法名称: get-->
@@ -117,12 +107,12 @@
     方法名称: queryPagenationList
     调用路径: Application.queryPagenationList
     -->
-    <select id="selectByAppName" parameterType="java.lang.String" resultType="swa.db.entity.ApplicationInfo">
+    <select id="selectByAppName" parameterType="java.lang.String" resultType="swa.db.entity.App">
         SELECT
         app_name AS appName
         ,address AS address
         ,port as port
-        FROM applicationInfo
+        FROM appInfo
         WHERE app_name=#{appName}
     </select>
 

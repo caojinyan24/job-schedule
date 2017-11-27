@@ -23,5 +23,7 @@ public interface JobInfoMapper {
 
     JobInfo selectByUniqKey(@Param("appName") String appName, @Param("beanName") String beanName, @Param("methodName") String methodName);
 
+    List<JobInfo> selectSelective(JobInfo jobInfo);
+
 
 }

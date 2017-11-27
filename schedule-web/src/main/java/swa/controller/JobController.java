@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import swa.db.entity.JobInfo;
 import swa.db.service.JobManagerService;
 import swa.db.service.JobScheduleService;
 import swa.job.common.JobContext;
 import swa.job.schedule.JobExecutor;
 import swa.rpc.Client;
+import swa.service.JobService;
 
 import javax.annotation.Resource;
 
@@ -33,7 +35,15 @@ public class JobController {
     private JobExecutor scheduleExecutor;
     @Resource
     private JobScheduleService jobScheduleService;
+    @Resource
+    private JobService jobService;
 
+    @RequestMapping("/jobs")
+    public ModelAndView jobs(@RequestParam("appName") String appName) {
+        ModelAndView result = new ModelAndView("/job/jobInfo");
+        result.addObject("jobs", jobService.queryByAppName(appName));
+        return result;
+    }
 
     @RequestMapping("/executeNow")
     @ResponseBody
@@ -61,7 +71,7 @@ public class JobController {
     }
 
     public static void main(String[] args) {
-        JobInfo applicationInfo=new JobInfo();
+        JobInfo applicationInfo = new JobInfo();
         applicationInfo.setAppName("aa");
         applicationInfo.setPort(8080);
         System.out.println(JSON.toJSONString(Lists.newArrayList(applicationInfo)));

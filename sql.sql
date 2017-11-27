@@ -11,7 +11,7 @@ CREATE TABLE `jobInfo` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   UNIQUE KEY `idx_app_bean_method_name` (`app_name`,`bean_name`,`method_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务表';
-CREATE TABLE `applicationInfo` (
+CREATE TABLE `appInfo` (
   `id` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
   `app_name` varchar(32) NOT NULL DEFAULT '' COMMENT '应用名',
   `address` varchar(256) NOT NULL DEFAULT '' COMMENT '应用服务器地址',

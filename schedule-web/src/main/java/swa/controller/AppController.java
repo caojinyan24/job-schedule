@@ -6,12 +6,10 @@ import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import swa.db.entity.ApplicationInfo;
-import swa.service.ApplicationService;
+import swa.db.entity.App;
+import swa.service.AppService;
 
 import javax.annotation.Resource;
 
@@ -22,33 +20,50 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/app")
-public class ApplicationController {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+public class AppController {
+    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
     @Resource
-    private ApplicationService applicationService;
+    private AppService appService;
 
     /**
      * 列表页面
      *
      * @return
      */
-    @RequestMapping(value = "applicationIndex", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView applicationIndex() {
+    @RequestMapping(value = "index", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("/app/appIndex");
-        modelAndView.addObject("appInfos", applicationService.queryApplicationInfo());
+        modelAndView.addObject("appInfos", appService.queryApp());
         return modelAndView;
     }
 
     @RequestMapping(value = "appInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView applicationIndex(@RequestParam("appName")String appName) {
+    public ModelAndView appInfo(@RequestParam("appName") String appName) {
         ModelAndView modelAndView = new ModelAndView("app/appInfo");
-        modelAndView.addObject("appInfo", applicationService.queryByAppName( appName));
+        modelAndView.addObject("appInfos", appService.queryApp());
+        modelAndView.addObject("appInfo", appService.queryByName(appName));
+        logger.info("appInfo:{}",appService.queryByName(appName));
         return modelAndView;
 
     }
 
+    @RequestMapping("appSave")
+    @ResponseBody
+    public String appSave(App app) {
+        logger.info("appSave:{}", app);
+        try {
+            appService.update(app);
+            return "更新成功";
+        } catch (Exception e) {
+            logger.error("appSave error:", e);
+            return "更新失败";
+        }
+
+    }
+
+
     public static void main(String[] args) {
-        ApplicationInfo applicationInfo=new ApplicationInfo();
+        App applicationInfo = new App();
         applicationInfo.setAppName("aa");
         applicationInfo.setAddress("127.0.0.1");
         applicationInfo.setPort(8080);
