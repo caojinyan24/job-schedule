@@ -3,34 +3,38 @@
 <mapper namespace="swa.db.mapper.JobInfoMapper">
 
     <select id="selectSelective" resultType="swa.db.entity.JobInfo" parameterType="swa.db.entity.JobInfo">
-        select job_name as jobName,
+        select id as id,
         app_name as appName,
         bean_name as beanName,
         method_name as methodName,
-        cron_param as cronParam
+        cron_param as cronParam,
+        schedule_addr as scheduleAddr,
+        param as param,
+        create_time as createTime,
+        update_time as updateTime
         from jobInfo
         where 1=1
         <trim suffixOverrides=",">
-            <if test="jobName != null and jobName != ''">
-                AND j.job_name = #{jobName}
+            <if test="id != null and id != ''">
+                AND id = #{id}
             </if>
             <if test="appName != null and appName != ''">
-                AND j.app_name = #{appName}
+                AND app_name = #{appName}
             </if>
             <if test="beanName != null and beanName != ''">
-                AND j.bean_name = #{beanName}
+                AND bean_name = #{beanName}
             </if>
             <if test="methodName != null and methodName != ''">
-                AND j.method_name = #{methodName}
+                AND method_name = #{methodName}
             </if>
             <if test="cronParam != null and cronParam != ''">
-                AND j.cron_param = #{cronParam}
+                AND cron_param = #{cronParam}
             </if>
-            <if test="createTime != null and createTime != ''">
-                AND j.create_time = #{createTime}
+            <if test="scheduleAddr != null and scheduleAddr != ''">
+                AND schedule_addr = #{scheduleAddr}
             </if>
-            <if test="updateTime != null and updateTime != ''">
-                AND j.update_time = #{updateTime}
+            <if test="param != null and param != ''">
+                AND param = #{param}
             </if>
         </trim>
     </select>
@@ -38,15 +42,13 @@
     <insert id="insertJob" parameterType="swa.db.entity.JobInfo">
         INSERT INTO jobInfo
         (
-        job_code
-        ,app_name
+        app_name
         ,bean_name
         ,method_name
         )
         values
         (
-        #{jobCode}
-        ,#{appName}
+        #{appName}
         ,#{beanName}
         ,#{methodName}
         )
@@ -57,10 +59,10 @@
         UPDATE jobInfo
         <trim prefix="SET" suffixOverrides=",">
             <if test="param!=null">
-                param=#{param}
+                param=#{param},
             </if>
             <if test="scheduleAddr!=null">
-                schedule_addr=#{scheduleAddr}
+                schedule_addr=#{scheduleAddr},
             </if>
             <if test="cronParam != null">
                 cron_param = #{cronParam},
@@ -74,43 +76,18 @@
     <select id="selectByJobId" parameterType="java.lang.Long" resultType="swa.db.entity.JobInfo">
         SELECT
         id as id
-        ,job_code AS jobCode
         ,app_name AS appName
         ,bean_name AS beanName
         ,method_name AS methodName
         ,cron_param AS cronParam
         ,schedule_addr as scheduleAddr
+        ,param as param
         FROM jobInfo
         WHERE
         id = #{jobId}
     </select>
 
-    <select id="selectByJobCode" parameterType="java.lang.Integer" resultType="swa.db.entity.JobInfo">
-        SELECT
-        job_code AS jobCode
-        ,app_name AS appName
-        ,bean_name AS beanName
-        ,method_name AS methodName
-        ,cron_param AS cronParam
-        ,schedule_addr as scheduleAddr
-        FROM jobInfo
-        WHERE
-        id = #{jobCode}
-    </select>
 
-    <select id="selectByUniqKey" resultType="swa.db.entity.JobInfo">
-    SELECT
-    id as id
-        ,job_code AS jobCode
-        ,app_name AS appName
-        ,bean_name AS beanName
-        ,method_name AS methodName
-        ,cron_param AS cronParam
-        ,schedule_addr as scheduleAddr
-        FROM jobInfo
-        WHERE
-        app_name = #{appName} and bean_name=#{beanName} and method_name=#{methodName}
-</select>
 
 
 </mapper>

@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface JobInfoMapper {
-    List<JobInfo> selectByJobCode(@Param("jobCode") Integer jobCode);
 
     JobInfo selectByJobId(@Param("jobId") Long jobId);
 
@@ -21,7 +20,6 @@ public interface JobInfoMapper {
 
     void insertJob(JobInfo jobs);
 
-    JobInfo selectByUniqKey(@Param("appName") String appName, @Param("beanName") String beanName, @Param("methodName") String methodName);
 
     List<JobInfo> selectSelective(JobInfo jobInfo);
 

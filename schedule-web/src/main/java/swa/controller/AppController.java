@@ -53,10 +53,10 @@ public class AppController {
         logger.info("appSave:{}", app);
         try {
             appService.update(app);
-            return "更新成功";
+            return "save success！";
         } catch (Exception e) {
             logger.error("appSave error:", e);
-            return "更新失败";
+            return "save fail！";
         }
 
     }

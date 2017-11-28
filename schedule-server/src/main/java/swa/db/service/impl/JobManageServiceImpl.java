@@ -1,6 +1,5 @@
 package swa.db.service.impl;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -28,29 +27,24 @@ public class JobManageServiceImpl implements JobManagerService {
     @Resource
     private JobInfoMapper jobInfoMapper;
     @Resource
-    private AppMapper applicationInfoMapper;
+    private AppMapper appMapper;
 
     public Boolean isExist(String appName, String beanName, String methodName) {
-        Integer hashCode = generateJobCode(appName, beanName, methodName);
-        List<JobInfo> jobInfos = jobInfoMapper.selectByJobCode(hashCode);
-        if (CollectionUtils.isEmpty(jobInfos)) {
-            return false;
-        }
-        for (JobInfo jobInfo : jobInfos) {
-            if (jobInfo.getAppName().equals(appName) && jobInfo.getBeanName().equals(beanName) && jobInfo.getMethodName().equals(methodName)) {
-                return true;
-            }
-        }
-        return false;
+        JobInfo jobInfo = new JobInfo();
+        jobInfo.setAppName(appName);
+        jobInfo.setBeanName(beanName);
+        jobInfo.setMethodName(methodName);
+        List<JobInfo> dbData = jobInfoMapper.selectSelective(jobInfo);
+        return !CollectionUtils.isEmpty(dbData);
     }
 
-    public Integer generateJobCode(String appName, String beanName, String methodName) {
-        return Joiner.on(".").join(appName, beanName, methodName).hashCode();
-    }
 
     public JobContext getExecuteJobInfo(Long jobId) {
         JobInfo jobInfo = jobInfoMapper.selectByJobId(jobId);
-        App applicationInfo = applicationInfoMapper.selectByAppName(jobInfo.getAppName());
+        if(jobInfo==null){
+            throw new JobScheduleException("no job found");
+        }
+        App applicationInfo = appMapper.selectByAppName(jobInfo.getAppName());
         String address = "";
         if (Strings.isNullOrEmpty(jobInfo.getScheduleAddr())) {
             if (Strings.isNullOrEmpty(applicationInfo.getAddress())) {
@@ -67,11 +61,6 @@ public class JobManageServiceImpl implements JobManagerService {
         jobInfoMapper.updateJobInfo(jobInfo);
     }
 
-    public List<JobInfo> selectByAppName(String appName) {
-        JobInfo jobInfo=new JobInfo();
-        jobInfo.setAppName(appName);
-        return jobInfoMapper.selectSelective(jobInfo);
-    }
 
 
 }

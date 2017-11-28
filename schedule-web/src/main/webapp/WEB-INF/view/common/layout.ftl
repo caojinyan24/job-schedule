@@ -54,9 +54,10 @@
                 </li>
             </ul>
             <ul class="nav nav-divider">
-            <#list appInfos as app>
-                <li><a href="/app/appInfo?appName=${app.appName}">${app.appName}</li></a>
-            </#list>
+                <#list appInfos as app>
+                    <li><a href="/job/jobs?appName=${app.appName}">${app.appName}</li>
+                    </a>
+                </#list>
             </ul>
         </div>
     </div>

@@ -15,6 +15,7 @@ public class DataEncoder extends MessageToByteEncoder<String> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, String s, ByteBuf byteBuf) throws Exception {
+        logger.info("encode:{},{}",s,byteBuf.toString());
         byteBuf.writeBytes(s.getBytes());
     }
 

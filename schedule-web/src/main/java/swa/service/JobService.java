@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface JobService {
     List<JobInfo> queryByAppName(String appName);
+
+    JobInfo queryById(Long jobId);
 }

@@ -11,10 +11,12 @@ import swa.db.entity.JobInfo;
 import swa.db.mapper.AppMapper;
 import swa.db.mapper.JobInfoMapper;
 import swa.db.service.JobManagerService;
+import swa.exception.JobScheduleException;
 import swa.exception.PreconditionUtil;
 import swa.job.schedule.JobExecutor;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,8 +53,7 @@ public class JobRegister {
         Integer port = (Integer) map.get("port");
         PreconditionUtil.check(null != port, "port is empty");
         if (!jobManagerService.isExist(appName, beanName, methodName)) {
-            JobInfo jobInfo = new JobInfo(jobManagerService.generateJobCode(appName, beanName, methodName),
-                    appName, beanName, methodName);
+            JobInfo jobInfo = new JobInfo(appName, beanName, methodName);
             try {
                 jobInfoMapper.insertJob(jobInfo);
             } catch (DuplicateKeyException e) {
@@ -73,10 +74,15 @@ public class JobRegister {
     }
 
     public void registerJob(String jobInfoStr) {
+        logger.info("registerJob:{}", jobInfoStr);
         JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
         saveJobInfo(jobInfoStr);
-        jobInfo = jobInfoMapper.selectByUniqKey(jobInfo.getAppName(), jobInfo.getBeanName(), jobInfo.getMethodName());
-        scheduleExecutor.sendJob(jobInfo.getId());
+        List<JobInfo> dbData = jobInfoMapper.selectSelective(jobInfo);
+        logger.info("register:{}", dbData);
+        if (dbData.size() != 1) {
+            throw new JobScheduleException("data error");
+        }
+        scheduleExecutor.sendJob(dbData.get(0).getId());
     }
 
 }

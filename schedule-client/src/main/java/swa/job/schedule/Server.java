@@ -35,12 +35,13 @@ import swa.job.DataEncoder;
  */
 public final class Server {
     private String host;
-    private int port;
+    private Integer port;
 
     public Server(String host, int port) {
         this.host = host;
         this.port = port;
     }
+
 
     public void start() throws InterruptedException {
         EventLoopGroup group = new NioEventLoopGroup();
@@ -51,9 +52,9 @@ public final class Server {
                     .childHandler(new ChannelInitializer<SocketChannel>() {//处理每一个connection
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DataDecoder());
-                            ch.pipeline().addLast(new DataEncoder());
+                            ch.pipeline().addFirst(new DataEncoder());
                             ch.pipeline().addLast(new JobScheduleReceiver());
+                            ch.pipeline().addLast(new DataDecoder());
                         }
                     });
             ChannelFuture f = serverBootstrap.bind(host, port).sync();//创建一个channel并和这个channel绑定
@@ -62,6 +63,15 @@ public final class Server {
             group.shutdownGracefully().sync();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Server{" +
+                "host='" + host + '\'' +
+                ", port=" + port +
+                '}';
+    }
+
 
 
 }

@@ -29,10 +29,11 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         final String paramStr = (String) msg;
+        logger.info("get job schedule:{}", paramStr);
         if (paramStr == null || paramStr == "") {
             return;
         }
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             public void run() {
                 JobScheduleExecutor.addJob(paramStr);
             }
@@ -47,6 +48,8 @@ public class JobScheduleReceiver extends ChannelInboundHandlerAdapter {
         logger.error("catch exception:{}", cause);
         ctx.close();
     }
+
+
 
 
 }

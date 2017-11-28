@@ -49,7 +49,6 @@ public class Client {
 
 
     public void start() throws InterruptedException {
-
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();

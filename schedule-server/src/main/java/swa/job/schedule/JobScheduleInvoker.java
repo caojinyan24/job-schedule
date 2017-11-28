@@ -32,10 +32,13 @@ public class JobScheduleInvoker extends ChannelOutboundHandlerAdapter {
      * Creates a client-side handler.
      */
     public JobScheduleInvoker(String jobInfo) {
+        logger.info("JobScheduleInvoker:{}",jobInfo);
+
         this.jobInfo = jobInfo;
     }
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        logger.info("write:{}",msg);
         ctx.write(jobInfo, promise);
     }
 

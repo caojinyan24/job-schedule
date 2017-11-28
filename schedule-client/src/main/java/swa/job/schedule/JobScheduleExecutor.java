@@ -95,6 +95,7 @@ public class JobScheduleExecutor {
 
     private void executeNow(JobInfo jobInfo) {
         try {
+            logger.info("execute Now :{}", jobInfo);
             if (null != ApplicationLoader.getBean(jobInfo.getBeanName())) {
                 if (null != jobInfo.getParam()) {
                     Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), jobInfo.getParam().getClass());

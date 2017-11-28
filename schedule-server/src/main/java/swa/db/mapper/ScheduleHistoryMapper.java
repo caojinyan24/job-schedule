@@ -4,6 +4,8 @@ package swa.db.mapper;
 import org.springframework.stereotype.Repository;
 import swa.db.entity.ScheduleHistory;
 
+import java.util.List;
+
 /**
  * ScheduleHistoryMapper
  * Created by jinyan.cao on 2017-10-23 18:37:55
@@ -17,6 +19,6 @@ public interface ScheduleHistoryMapper {
 //
 //    public void deleteByPriKey(Long id);
 //
-//    public ScheduleHistory queryByPriKey(Long id);
+     List<ScheduleHistory> queryByJobId(Long jobId);
 
 }

@@ -154,22 +154,19 @@
     <!--方法名称: queryPagenationList-->
     <!--调用路径: ScheduleHistory.queryPagenationList-->
     <!--&ndash;&gt;-->
-    <!--<select id="queryPagenationList" parameterType="Object" resultType="swa.db.entity.ScheduleHistory">-->
-    <!--SELECT-->
-    <!--sh.id AS id-->
-    <!--,sh.job_name AS jobName-->
-    <!--,sh.schedule_address AS scheduleAddress-->
-    <!--,sh.schedule_param AS scheduleParam-->
-    <!--,sh.execute_time AS executeTime-->
-    <!--,sh.execute_status AS executeStatus-->
-    <!--,sh.create_time AS createTime-->
-    <!--,sh.update_time AS updateTime-->
-    <!--FROM schedule_history AS sh-->
-    <!--WHERE 1=1-->
-    <!--<include refid="wherecontation"/>-->
-    <!--ORDER BY sh.id DESC-->
-    <!--LIMIT #{startRow}-->
-    <!--,#{pageSize}-->
-    <!--</select>-->
+    <select id="queryByJobId" parameterType="java.lang.Long" resultType="swa.db.entity.ScheduleHistory">
+    SELECT
+    id AS id
+    ,job_id AS jobId
+    ,schedule_address AS scheduleAddress
+    ,schedule_param AS scheduleParam
+    ,execute_time AS executeTime
+    ,execute_status AS executeStatus
+    ,create_time AS createTime
+    ,update_time AS updateTime
+    FROM schedule_history
+    WHERE job_id=#{jobId}
+    ORDER BY id DESC
+   </select>
 
 </mapper>

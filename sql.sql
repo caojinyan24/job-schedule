@@ -1,6 +1,5 @@
 CREATE TABLE `jobInfo` (
   `id` bigint(24) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
-  `job_code` INTEGER (16) NOT NULL DEFAULT 0 COMMENT '任务编码',
   `app_name` varchar(32) NOT NULL DEFAULT '' COMMENT '应用名',
   `bean_name` varchar(32) NOT NULL DEFAULT '' COMMENT '类名',
   `method_name` varchar(32) NOT NULL DEFAULT '' COMMENT '方法名',

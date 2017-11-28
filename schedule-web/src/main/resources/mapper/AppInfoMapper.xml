@@ -26,8 +26,8 @@
     方法名称: insert
     调用路径: Application.insert
     -->
-    <insert id="insertOrUpdateApp" parameterType="swa.db.entity.App">
-        INSERT INTO applicationInfo
+    <insert id="insertOrUpdate" parameterType="swa.db.entity.App">
+        INSERT INTO appInfo
         (
         app_name
         ,address
@@ -47,7 +47,7 @@
         app_name as appName,
         address as address,
         port as port
-        from applicationInfo
+        from appInfo
     </select>
 
 
@@ -109,7 +109,8 @@
     -->
     <select id="selectByAppName" parameterType="java.lang.String" resultType="swa.db.entity.App">
         SELECT
-        app_name AS appName
+        id as id
+        ,app_name AS appName
         ,address AS address
         ,port as port
         FROM appInfo
