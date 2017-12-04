@@ -97,9 +97,14 @@ public class JobScheduleExecutor {
         try {
             logger.info("execute Now :{}", jobInfo);
             if (null != ApplicationLoader.getBean(jobInfo.getBeanName())) {
-                if (null != jobInfo.getParam()) {
-                    Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName(), jobInfo.getParam().getClass());
-                    method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()), jobInfo.getParam());
+                if (null!=jobInfo.getParam()&& jobInfo.getParam().trim() != null && jobInfo.getParam().trim().length() != 0) {
+                    logger.debug("param:{}",jobInfo.getParam());
+                    Method[] methods=ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethods();
+                    for(Method method:methods){
+                        if(method.getName().equals(jobInfo.getMethodName())){
+                            method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()), jobInfo.getParam());
+                        }
+                    }
                 } else {
                     Method method = ApplicationLoader.getBean(jobInfo.getBeanName()).getClass().getMethod(jobInfo.getMethodName());
                     method.invoke(ApplicationLoader.getBean(jobInfo.getBeanName()));
@@ -108,6 +113,14 @@ public class JobScheduleExecutor {
         } catch (Exception e) {
             logger.error("error", e);
         }
+    }
+
+    public static void main(String[] args) {
+        Method[]methods=JobScheduleExecutor.class.getMethods();
+        for(Method method:methods){
+            System.out.println(method.getName());
+        }
+
     }
 }
 

@@ -28,3 +28,7 @@ client模块获得applicationcontext再次莫名失败，调用getbean的时候�
 
 
 接下来又要开始页面部分了，
+
+
+
+client绑定inboundHandler

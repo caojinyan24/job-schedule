@@ -34,7 +34,4 @@ public class RPCServiceImpl implements RpcService {
         logger.info("server start3");
     }
 
-    public String remoteRequest(String param, String ipAddr) {
-        return null;
-    }
 }

@@ -52,9 +52,10 @@ public final class Server {
                     .childHandler(new ChannelInitializer<SocketChannel>() {//处理每一个connection
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addFirst(new DataEncoder());
-                            ch.pipeline().addLast(new JobScheduleReceiver());
+                            ch.pipeline().addLast(new DataEncoder());
                             ch.pipeline().addLast(new DataDecoder());
+                            ch.pipeline().addLast(new JobScheduleReceiver());
+
                         }
                     });
             ChannelFuture f = serverBootstrap.bind(host, port).sync();//创建一个channel并和这个channel绑定

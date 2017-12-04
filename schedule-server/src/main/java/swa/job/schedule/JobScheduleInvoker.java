@@ -16,15 +16,14 @@
 package swa.job.schedule;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelOutboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 向client请求任务调度
  */
-public class JobScheduleInvoker extends ChannelOutboundHandlerAdapter {
+public class JobScheduleInvoker extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobScheduleInvoker.class);
     private String jobInfo;
 
@@ -32,18 +31,30 @@ public class JobScheduleInvoker extends ChannelOutboundHandlerAdapter {
      * Creates a client-side handler.
      */
     public JobScheduleInvoker(String jobInfo) {
-        logger.info("JobScheduleInvoker:{}",jobInfo);
-
         this.jobInfo = jobInfo;
     }
+
+    //发送调度信息
     @Override
-    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        logger.info("write:{}",msg);
-        ctx.write(jobInfo, promise);
+    public void channelActive(ChannelHandlerContext ctx) {
+        ctx.writeAndFlush(jobInfo);
+
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        logger.info("getData:{}", msg);
+        ctx.write(msg);
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // Close the connection when an exception is raised.
         cause.printStackTrace();
         ctx.close();
     }

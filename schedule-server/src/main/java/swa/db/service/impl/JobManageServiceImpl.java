@@ -45,8 +45,8 @@ public class JobManageServiceImpl implements JobManagerService {
             throw new JobScheduleException("no job found");
         }
         App applicationInfo = appMapper.selectByAppName(jobInfo.getAppName());
-        String address = "";
-        if (Strings.isNullOrEmpty(jobInfo.getScheduleAddr())) {
+        String address =jobInfo.getScheduleAddr();
+        if (Strings.isNullOrEmpty(address)) {
             if (Strings.isNullOrEmpty(applicationInfo.getAddress())) {
                 throw new JobScheduleException("server address havn't configged");
             } else {
@@ -54,6 +54,7 @@ public class JobManageServiceImpl implements JobManagerService {
                 address = addrs.get(new Random().nextInt() % addrs.size());
             }
         }
+
         return new JobContext(jobInfo, address, applicationInfo.getPort());
     }
 
