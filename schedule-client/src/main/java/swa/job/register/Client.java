@@ -15,6 +15,7 @@
  */
 package swa.job.register;
 
+import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -22,8 +23,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import swa.job.DataDecoder;
 import swa.job.DataEncoder;
+import swa.job.JobInfo;
 
 /**
  * Sends one message when a connection is open and echoes back any received
@@ -51,16 +54,34 @@ public class Client {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DataDecoder());
-                            ch.pipeline().addLast(new DataEncoder());
-                            ch.pipeline().addLast(new JobInfoSender(jobInfo));
+                            ch.pipeline().addLast(new DataDecoder());//in
+                            ch.pipeline().addLast(new DataEncoder());//out
+                            ch.pipeline().addLast(new JobInfoSender(jobInfo));//in
+                            ch.pipeline().addLast(new LoggingHandler());
                         }
                     });
             Channel channel = b.connect(host, port).sync().channel();
+
             channel.closeFuture().sync();
         } finally {
             group.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    JobInfo jobInfo = new JobInfo();
+                    jobInfo.setJobId(12L);
+                    new Client("127.0.0.1", 8087, JSON.toJSONString(jobInfo)).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
     }
 
 

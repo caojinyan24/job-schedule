@@ -9,4 +9,6 @@
     <!-- 事务管理器 -->
     <context:component-scan base-package="swa.db.service swa.job.* swa.rpc.* swa.service.*"/>
 
+    <bean name="rPCServiceImpl" class="swa.rpc.service.impl.RPCServiceImpl"/>
+
 </beans>

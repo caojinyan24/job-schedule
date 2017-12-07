@@ -16,7 +16,7 @@ public class DataDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        logger.info("decode:{},{}", byteBuf.toString(), list);
+        logger.info("decode:{},{}", byteBuf, list);
         byteBuf.markReaderIndex();
         byte[] decoded = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(decoded);

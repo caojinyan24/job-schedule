@@ -45,7 +45,7 @@ public class JobScheduleBeanDefinitionParser extends AbstractSingleBeanDefinitio
         Thread thread = new Thread(new Runnable() {
             public void run() {
                 try {
-                    new Server("127.0.0.1", port).start();//todo：填入schedule服务器地址，后期考虑动态获取
+                    new Server(port).start();//todo：填入schedule服务器地址，后期考虑动态获取
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

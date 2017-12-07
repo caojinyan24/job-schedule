@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
  */
 public class DataEncoder extends MessageToByteEncoder<String> {
     private static final Logger logger = LoggerFactory.getLogger(DataEncoder.class);
+
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, String s, ByteBuf byteBuf) throws Exception {
-        logger.info("encode:{},{}",s,byteBuf.toString());
         byteBuf.writeBytes(s.getBytes());
+        logger.info("encode-end:{},{}", s, byteBuf);
     }
 
 }

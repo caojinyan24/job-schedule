@@ -17,11 +17,14 @@ package swa.job.register;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 向server服务器发送job信息
  */
 public class JobInfoSender extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(JobInfoSender.class);
     private final String jobInfo;
 
     public JobInfoSender(String jobInfo) {
@@ -30,16 +33,19 @@ public class JobInfoSender extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        logger.debug("channelActive：{}", jobInfo);
         ctx.writeAndFlush(jobInfo);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        logger.debug("channelRead:{}", msg);
         ctx.write(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
+        logger.debug("channelReadComplete");
         ctx.flush();
     }
 

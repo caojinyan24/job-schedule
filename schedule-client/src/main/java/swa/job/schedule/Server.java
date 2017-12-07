@@ -34,20 +34,19 @@ import swa.job.DataEncoder;
  * Channels. This API is very experimental and incomplete.
  */
 public final class Server {
-    private String host;
     private Integer port;
 
-    public Server(String host, int port) {
-        this.host = host;
+    public Server(int port) {
         this.port = port;
     }
 
 
     public void start() throws InterruptedException {
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(group)
+            serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {//处理每一个connection
                         @Override
@@ -58,21 +57,20 @@ public final class Server {
 
                         }
                     });
-            ChannelFuture f = serverBootstrap.bind(host, port).sync();//创建一个channel并和这个channel绑定
+            ChannelFuture f = serverBootstrap.bind(port).sync();//创建一个channel并和这个channel绑定
             f.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully().sync();
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
     }
 
     @Override
     public String toString() {
         return "Server{" +
-                "host='" + host + '\'' +
                 ", port=" + port +
                 '}';
     }
-
 
 
 }

@@ -23,6 +23,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import swa.job.registry.JobInfoReceiver;
@@ -37,35 +38,36 @@ import swa.job.registry.JobInfoReceiver;
  */
 public final class Server {
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
-    private String host;
     private int port;
 
-    public Server(String host, int port) {
-        this.host = host;
+    public Server(int port) {
         this.port = port;
     }
 
-
     public void start() throws InterruptedException {
-        logger.info("start:{},{}", host, port);
-        EventLoopGroup group = new NioEventLoopGroup();
+        logger.info("start:{}", port);
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(group)
+            serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {//处理每一个connection
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addFirst(new DataDecoder());
+                            ch.pipeline().addLast(new DataEncoder());
+                            ch.pipeline().addLast(new DataDecoder());
                             ch.pipeline().addLast(new JobInfoReceiver());
-
+                            ch.pipeline().addLast(new LoggingHandler());
                         }
                     });
-            ChannelFuture f = serverBootstrap.bind(host, port).sync();//创建一个channel并和这个channel绑定
+            ChannelFuture f = serverBootstrap.bind(port).sync();//创建一个channel并和这个channel绑定
             f.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully().sync();
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
     }
+
 
 }
