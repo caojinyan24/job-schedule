@@ -32,3 +32,11 @@ client模块获得applicationcontext再次莫名失败，调用getbean的时候�
 
 
 client绑定inboundHandler
+
+页面删除无用部分
+当调用系统重启时，无法恢复任务的重新执行
+
+写单测的问题：
+Process finished with exit code 1
+       Class not found: "swa.job.schedule.JobExecutorTest"Empty test suite.
+看stackoverflow的解释，跟idea版本有关系，我最开始是用2017.2.5版本出现的这个问题，换成15.0.2的就好了。。。

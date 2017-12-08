@@ -69,7 +69,6 @@ public class JobScheduleExecutor {
                             new JobScheduleExecutor().executeRepeat(jobInfoWrapper);
                         }
                     }, jobInfoWrapper.getDelayExecuteTime(new Date()), TimeUnit.MILLISECONDS);
-
                 }
             }
         }

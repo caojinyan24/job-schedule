@@ -34,7 +34,6 @@ import swa.job.schedule.JobScheduleInvoker;
  * the server.
  */
 public class Client {
-    static final int SIZE = Integer.parseInt(System.getProperty("size", "256"));
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
     private Channel channel;
     private String host;
@@ -63,9 +62,7 @@ public class Client {
                     });
             channel = b.connect(host, port).sync().channel();
             channel.closeFuture().sync();
-            // Wait until the connection is closed.
         } finally {
-            // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
     }

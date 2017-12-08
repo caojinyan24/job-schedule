@@ -7,6 +7,7 @@ import swa.db.entity.ScheduleHistory;
 import swa.db.mapper.ScheduleHistoryMapper;
 import swa.db.service.JobScheduleService;
 import swa.job.common.JobContext;
+import swa.util.ScheduleStatusEnum;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -20,8 +21,9 @@ public class JobScheduleServiceImpl implements JobScheduleService {
     @Resource
     private ScheduleHistoryMapper scheduleHistoryMapper;
 
-    public void addJobScheduleHistory(JobContext jobInfo) {
+    public void addJobScheduleHistory(JobContext jobInfo,ScheduleStatusEnum scheduleStatus) {
         ScheduleHistory scheduleHistory = new ScheduleHistory(jobInfo.getJobId(), jobInfo.getAddress(), jobInfo.getParam(), new Date());
+        scheduleHistory.setExecuteStatus(scheduleStatus);
         scheduleHistoryMapper.insertHistory(scheduleHistory);
     }
 }
