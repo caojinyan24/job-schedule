@@ -54,7 +54,6 @@ public class JobManageServiceImpl implements JobManagerService {
                 address = addrs.get(new Random().nextInt() % addrs.size());
             }
         }
-
         return new JobContext(jobInfo, address, applicationInfo.getPort());
     }
 

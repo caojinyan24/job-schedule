@@ -79,19 +79,13 @@ public class JobController {
         try {
             //保存信息到数据库
             jobManagerService.saveJobInfo(jobInfo);
-
+            scheduleExecutor.sendJob(jobInfo.getId());
             return "save success!";
         } catch (Exception e) {
             logger.info("modifyJobInfo error:", e);
             return "save fail!";
         }
     }
-//
-//    public static void main(String[] args) {
-//        JobInfo applicationInfo = new JobInfo();
-//        applicationInfo.setAppName("aa");
-//        applicationInfo.setPort(8080);
-//        System.out.println(JSON.toJSONString(Lists.newArrayList(applicationInfo)));
-//    }
+
 }
 

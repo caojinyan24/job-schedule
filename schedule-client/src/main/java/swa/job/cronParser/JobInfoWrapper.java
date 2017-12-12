@@ -16,8 +16,22 @@ public class JobInfoWrapper extends JobInfo {
     Date currentExecuteTime;
     Date actualLastExecuteTime;
 
-    public JobInfoWrapper(JobInfo jobInfo) {
-        this.setJobId(jobInfo.getJobId());
+    /**
+     * 加入新任务
+     *
+     * @param jobInfo
+     */
+    public static JobInfoWrapper newWrapperJob(JobInfo jobInfo) {
+        return new JobInfoWrapper(jobInfo);
+
+    }
+
+    public static Boolean isCronParamValid(JobInfo jobInfo) {
+        return jobInfo.getCronParam() != null && jobInfo.getCronParam().length() != 0;
+    }
+
+    private JobInfoWrapper(JobInfo jobInfo) {
+        setJobId(jobInfo.getJobId());
         setAppName(jobInfo.getAppName());
         setBeanName(jobInfo.getBeanName());
         setMethodName(jobInfo.getMethodName());
@@ -27,27 +41,9 @@ public class JobInfoWrapper extends JobInfo {
         setParam(jobInfo.getParam());
         this.actualLastExecuteTime = null;
         this.currentExecuteTime = null;
-        this.nextExecuteTime = new CronSequenceGenerator(getCronParam()).next(new Date());
+        this.nextExecuteTime = isCronParamValid(jobInfo) ? new CronSequenceGenerator(getCronParam()).next(new Date()) : null;//下次执行时间为null代表只执行一次
     }
 
-    /**
-     * 当前调用完成后做更新操作
-     */
-    public JobInfoWrapper updateExecuteTimes() {
-        //// TODO: 11/2/17 更新下次执行时间、当前执行时间、实际执行时间
-        actualLastExecuteTime = currentExecuteTime;
-        currentExecuteTime = new Date();
-        nextExecuteTime = new CronSequenceGenerator(getCronParam()).next(new Date());
-        return this;
-    }
-
-    public Boolean canExecute(JobInfo jobInfo) {
-        if (this.getCronParam().equals(jobInfo.getCronParam())) {
-            return true;
-        }
-        // TODO: 11/3/17  判断执行机器
-        return false;
-    }
 
     public Long getDelayExecuteTime(Date endTime) {
         return nextExecuteTime.getTime() - endTime.getTime();

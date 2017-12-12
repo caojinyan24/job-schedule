@@ -60,7 +60,6 @@ public class JobRegister {
                 logger.info("same job exists");
             }
         }
-
         App applicationInfo = appMapper.selectByAppName(appName);
         if (applicationInfo == null) {
             applicationInfo = new App();
@@ -82,7 +81,10 @@ public class JobRegister {
         if (dbData.size() != 1) {
             throw new JobScheduleException("data error");
         }
+        JobInfo currentJob = dbData.get(0);
+        if(!Strings.isNullOrEmpty(currentJob.getScheduleAddr())){//对注册任务，要求必须配置执行时间
         scheduleExecutor.sendJob(dbData.get(0).getId());
+        }
     }
 
 }

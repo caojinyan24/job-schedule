@@ -40,3 +40,13 @@ client绑定inboundHandler
 Process finished with exit code 1
        Class not found: "swa.job.schedule.JobExecutorTest"Empty test suite.
 看stackoverflow的解释，跟idea版本有关系，我最开始是用2017.2.5版本出现的这个问题，换成15.0.2的就好了。。。
+
+todo:
+理下任务调度的流程
+
+功能：
+立即执行：随机选择一台机器执行
+设定执行时间的：指定一台机器执行
+先忽略机器挂掉的情况，后边考虑怎么处理？
+
+当一个调度任务已经加入到队列中，后续修改任务信息，会导致任务重复执行？？
