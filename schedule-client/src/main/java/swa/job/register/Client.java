@@ -15,7 +15,6 @@
  */
 package swa.job.register;
 
-import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -37,9 +36,9 @@ import swa.job.JobInfo;
 public class Client {
     private String host;
     private int port;
-    private String jobInfo;
+    private JobInfo jobInfo;
 
-    public Client(String host, int port, String jobInfo) {
+    public Client(String host, int port, JobInfo jobInfo) {
         this.host = host;
         this.port = port;
         this.jobInfo = jobInfo;
@@ -74,7 +73,7 @@ public class Client {
                 try {
                     JobInfo jobInfo = new JobInfo();
                     jobInfo.setJobId(12L);
-                    new Client("127.0.0.1", 8087, JSON.toJSONString(jobInfo)).start();
+                    new Client("127.0.0.1", 8087, jobInfo).start();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

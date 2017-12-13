@@ -49,4 +49,48 @@ todo:
 设定执行时间的：指定一台机器执行
 先忽略机器挂掉的情况，后边考虑怎么处理？
 
-当一个调度任务已经加入到队列中，后续修改任务信息，会导致任务重复执行？？
+当一个调度任务已经加入到队列中，后续修改任务信息，会导致任务重复执行？？通过map实现替换
+怎么区分是修改执行时间？再次添加执行时间？单次执行？在消息中添加动作标示
+todo:消息的包裹体太多，导致需要在实体间倒来倒去，后边考虑怎么优化下
+
+遇到个坑，
+    private static void executeScheduledJobs() {
+        if (!isStarted.get()) {
+            isStarted.compareAndSet(true, false);
+            executor.submit(
+                    new Runnable() {
+                        public void run() {
+                            synchronized(this) {
+                                while (true) {
+                                    Collection<JobInfo>keys=jobMap.keySet();
+
+                                    for (JobInfo jobInfo : keys) {
+                                        ScheduleJobList list=jobMap.get(jobInfo);
+                                        final JobInfoWrapper jobInfoWrapper = list.checkJob();
+                                        if (jobInfoWrapper == null) {
+                                            logger.debug("1");
+                                            continue;
+                                        }
+                                        if (jobInfoWrapper.getNextExecuteTime() == null || !jobInfoWrapper.getNextExecuteTime().after(new Date())) {
+                                            JobInfoWrapper jobExecute = list.getJob();
+                                            executeNow(jobExecute);
+                                            JobInfoWrapper updated = updateJobWrapperInfo(jobExecute);
+                                            logger.debug("getUpdate:{}",updated);
+                                            if (updated != null) {
+                                                list.addJob(updateJobWrapperInfo(jobExecute));
+                                                jobMap.put(jobInfo,list)
+                                                logger.debug("addJob:{}",list);
+                                            }
+                                            logger.debug("2");
+                                            continue;
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    });
+        }
+    }
+    
+    由于ScheduleJobList中list是static的

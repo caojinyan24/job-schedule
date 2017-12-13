@@ -13,11 +13,12 @@ import swa.db.mapper.JobInfoMapper;
 import swa.db.service.JobManagerService;
 import swa.exception.JobScheduleException;
 import swa.exception.PreconditionUtil;
+import swa.job.common.JobContext;
+import swa.job.common.MsgBody;
 import swa.job.schedule.JobExecutor;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jinyan on 11/3/17 5:55 PM.
@@ -39,51 +40,60 @@ public class JobRegister {
      * 组装并保存任务信息到数据库
      * 取hashcode做appcode
      *
-     * @param jobInfoStr
+     * @param jobContext
      */
-    private void saveJobInfo(String jobInfoStr) {
-        Map<String, Object> map = JSON.parseObject(jobInfoStr, Map.class);
-        PreconditionUtil.check(null != map, "innvalid jobInfo");
-        String appName = (String) map.get("appName");
-        PreconditionUtil.check(!Strings.isNullOrEmpty(appName), "appName is empty");
-        String beanName = (String) map.get("beanName");
-        PreconditionUtil.check(!Strings.isNullOrEmpty(beanName), "beanName is empty");
-        String methodName = (String) map.get("methodName");
-        PreconditionUtil.check(!Strings.isNullOrEmpty(methodName), "methodName is empty");
-        Integer port = (Integer) map.get("port");
-        PreconditionUtil.check(null != port, "port is empty");
-        if (!jobManagerService.isExist(appName, beanName, methodName)) {
-            JobInfo jobInfo = new JobInfo(appName, beanName, methodName);
+    private void saveJobInfo(JobContext jobContext) {
+
+        PreconditionUtil.check(null != jobContext, "innvalid jobInfo");
+        PreconditionUtil.check(!Strings.isNullOrEmpty(jobContext.getAppName()), "appName is empty");
+        PreconditionUtil.check(!Strings.isNullOrEmpty(jobContext.getBeanName()), "beanName is empty");
+        PreconditionUtil.check(!Strings.isNullOrEmpty(jobContext.getMethodName()), "methodName is empty");
+        PreconditionUtil.check(null != jobContext.getPort(), "port is empty");
+        if (!jobManagerService.isExist(jobContext.getAppName(), jobContext.getBeanName(), jobContext.getMethodName())) {
+            JobInfo jobInfo = new JobInfo(jobContext.getAppName(), jobContext.getBeanName(), jobContext.getMethodName());
             try {
                 jobInfoMapper.insertJob(jobInfo);
             } catch (DuplicateKeyException e) {
                 logger.info("same job exists");
             }
         }
-        App applicationInfo = appMapper.selectByAppName(appName);
+        App applicationInfo = appMapper.selectByAppName(jobContext.getAppName());
         if (applicationInfo == null) {
             applicationInfo = new App();
-            applicationInfo.setAppName(appName);
+            applicationInfo.setAppName(jobContext.getAppName());
         }
-        if (!port.equals(applicationInfo.getPort())) {
+        if (!jobContext.getPort().equals(applicationInfo.getPort())) {
             applicationInfo.setAddress("127.0.0.1");//todo 后边改成从页面修改
-            applicationInfo.setPort(port);
+            applicationInfo.setPort(jobContext.getPort());
             appMapper.insertOrUpdate(applicationInfo);
         }
     }
 
     public void registerJob(String jobInfoStr) {
         logger.info("registerJob:{}", jobInfoStr);
-        JobInfo jobInfo = JSON.parseObject(jobInfoStr, JobInfo.class);
-        saveJobInfo(jobInfoStr);
+        MsgBody msgBody = JSON.parseObject(jobInfoStr, MsgBody.class);
+        JobInfo jobInfo = new JobInfo();
+        jobInfo.setMethodName(msgBody.getNewJob().getMethodName());
+        jobInfo.setBeanName(msgBody.getNewJob().getBeanName());
+        jobInfo.setAppName(msgBody.getNewJob().getAppName());
+        jobInfo.setId(msgBody.getNewJob().getJobId());
+        jobInfo.setCronParam(msgBody.getNewJob().getCronParam());
+        jobInfo.setParam(msgBody.getNewJob().getParam());
+        jobInfo.setScheduleAddr(msgBody.getNewJob().getAddress());
+        saveJobInfo(msgBody.getNewJob());
         List<JobInfo> dbData = jobInfoMapper.selectSelective(jobInfo);
         logger.info("register:{}", dbData);
         if (dbData.size() != 1) {
             throw new JobScheduleException("data error");
         }
         JobInfo currentJob = dbData.get(0);
-        if(!Strings.isNullOrEmpty(currentJob.getScheduleAddr())){//对注册任务，要求必须配置执行时间
-        scheduleExecutor.sendJob(dbData.get(0).getId());
+        JobContext addJobContext = msgBody.getNewJob();
+        addJobContext.setAddress(currentJob.getScheduleAddr());
+        addJobContext.setCronParam(currentJob.getCronParam());
+        addJobContext.setJobId(currentJob.getId());
+        logger.debug("registerJob:{}", addJobContext);
+        if (!Strings.isNullOrEmpty(currentJob.getScheduleAddr())) {//对注册任务，要求必须配置执行时间
+            scheduleExecutor.sendAddJob(addJobContext);
         }
     }
 

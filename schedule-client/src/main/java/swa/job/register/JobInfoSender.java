@@ -15,26 +15,32 @@
  */
 package swa.job.register;
 
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import swa.job.JobInfo;
+import swa.job.schedule.JobScheduleParser;
 
 /**
  * 向server服务器发送job信息
  */
 public class JobInfoSender extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(JobInfoSender.class);
-    private final String jobInfo;
+    private final JobInfo jobInfo;
 
-    public JobInfoSender(String jobInfo) {
+    public JobInfoSender(JobInfo jobInfo) {
         this.jobInfo = jobInfo;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         logger.debug("channelActive：{}", jobInfo);
-        ctx.writeAndFlush(jobInfo);
+        JobScheduleParser.ScheduleMsgBody msg = new JobScheduleParser.ScheduleMsgBody();
+        msg.setCode("ADD");
+        msg.setNewJob(jobInfo);
+        ctx.writeAndFlush(JSON.toJSONString(msg));
     }
 
     @Override

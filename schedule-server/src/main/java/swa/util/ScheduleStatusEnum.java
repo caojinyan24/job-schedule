@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by jinyan on 12/8/17 10:42 AM.
  */
 public enum ScheduleStatusEnum {
-    INIT(0, "未调度"), FAIL(1, "成功"), SUCCESS(2, "失败");
+    INIT(0, "未调度"), FAIL(1, "失败"), SUCCESS(2, "成功");
 
     public static ScheduleStatusEnum toEnum(Integer code) {
         return map.get(code);

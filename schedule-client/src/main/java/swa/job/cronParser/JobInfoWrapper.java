@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class JobInfoWrapper extends JobInfo {
     private static final Logger logger = LoggerFactory.getLogger(JobInfoWrapper.class);
+
     Date nextExecuteTime;
     Date currentExecuteTime;
     Date actualLastExecuteTime;
@@ -28,6 +29,9 @@ public class JobInfoWrapper extends JobInfo {
 
     public static Boolean isCronParamValid(JobInfo jobInfo) {
         return jobInfo.getCronParam() != null && jobInfo.getCronParam().length() != 0;
+    }
+
+    public JobInfoWrapper() {
     }
 
     private JobInfoWrapper(JobInfo jobInfo) {

@@ -43,7 +43,7 @@ public class BeanParser implements BeanPostProcessor {
                 new Runnable() {
                     public void run() {
                         try {
-                            new Client("127.0.0.1", 8087, JSON.toJSONString(jobInfo)).start();//// TODO: 10/31/17 schedule服务端开放的服务注册地址和端口，后期考虑优化
+                            new Client("127.0.0.1", 8087, jobInfo).start();//// TODO: 10/31/17 schedule服务端开放的服务注册地址和端口，后期考虑优化
                         } catch (InterruptedException e) {
                             logger.error("client start error:", e);
                         }

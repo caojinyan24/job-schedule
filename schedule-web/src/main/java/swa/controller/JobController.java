@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import swa.db.entity.JobInfo;
 import swa.db.service.JobManagerService;
+import swa.job.common.JobContext;
 import swa.job.schedule.JobExecutor;
 import swa.service.AppService;
 import swa.service.JobScheduleHistoryService;
@@ -67,8 +68,9 @@ public class JobController {
     @RequestMapping("/executeNow")
     @ResponseBody
     public String scheduleJob(@RequestParam("jobId") Long jobId) {
-        //向client端发送调度请求
-        scheduleExecutor.sendJob(jobId);
+        JobContext jobContext = jobManagerService.getExecuteJobInfo(jobId);
+        jobContext.setCronParam(null);
+        scheduleExecutor.sendAddJob(jobContext);
         return "submit success!";
     }
 
@@ -78,8 +80,9 @@ public class JobController {
         logger.info("modifyJobInfo:{}", jobInfo);
         try {
             //保存信息到数据库
+            JobContext oldJob = jobManagerService.getExecuteJobInfo(jobInfo.getId());
             jobManagerService.saveJobInfo(jobInfo);
-            scheduleExecutor.sendJob(jobInfo.getId());
+            scheduleExecutor.sendModifiedJob(oldJob,jobInfo);
             return "save success!";
         } catch (Exception e) {
             logger.info("modifyJobInfo error:", e);

@@ -11,7 +11,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class ScheduleJobList {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleJobList.class);
-    private static PriorityBlockingQueue<JobInfoWrapper> list;
+    private  PriorityBlockingQueue<JobInfoWrapper> list;
 
     public ScheduleJobList() {
         list = new PriorityBlockingQueue<JobInfoWrapper>(10, new Comparator<JobInfoWrapper>() {

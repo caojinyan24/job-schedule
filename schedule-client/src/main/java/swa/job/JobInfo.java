@@ -78,6 +78,36 @@ public class JobInfo {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JobInfo jobInfo = (JobInfo) o;
+
+        if (jobId != null ? !jobId.equals(jobInfo.jobId) : jobInfo.jobId != null) return false;
+        if (appName != null ? !appName.equals(jobInfo.appName) : jobInfo.appName != null) return false;
+        if (beanName != null ? !beanName.equals(jobInfo.beanName) : jobInfo.beanName != null) return false;
+        if (methodName != null ? !methodName.equals(jobInfo.methodName) : jobInfo.methodName != null) return false;
+        if (cronParam != null ? !cronParam.equals(jobInfo.cronParam) : jobInfo.cronParam != null) return false;
+        if (address != null ? !address.equals(jobInfo.address) : jobInfo.address != null) return false;
+        if (port != null ? !port.equals(jobInfo.port) : jobInfo.port != null) return false;
+        return param != null ? param.equals(jobInfo.param) : jobInfo.param == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = jobId != null ? jobId.hashCode() : 0;
+        result = 31 * result + (appName != null ? appName.hashCode() : 0);
+        result = 31 * result + (beanName != null ? beanName.hashCode() : 0);
+        result = 31 * result + (methodName != null ? methodName.hashCode() : 0);
+        result = 31 * result + (cronParam != null ? cronParam.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (port != null ? port.hashCode() : 0);
+        result = 31 * result + (param != null ? param.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "JobInfo{" +
                 "jobId=" + jobId +
