@@ -43,28 +43,22 @@ public final class JobScheduleExecutor {
                                     Collection<JobInfo> keys = jobMap.keySet();
                                     for (JobInfo jobInfo : keys) {
                                         ScheduleJobList list = jobMap.get(jobInfo);
-//                                        logger.debug("list:{}", list);
-//                                        logger.debug("map:{}", jobMap);
 
                                         final JobInfoWrapper jobInfoWrapper = list.checkJob();
                                         if (jobInfoWrapper == null) {
-//                                            logger.debug("1");
                                             continue;
                                         }
                                         if (jobInfoWrapper.getNextExecuteTime() == null || !jobInfoWrapper.getNextExecuteTime().after(new Date())) {
                                             JobInfoWrapper jobExecute = list.getJob();
                                             executeNow(jobExecute);
                                             JobInfoWrapper updated = updateJobWrapperInfo(jobExecute);
-//                                            logger.debug("getUpdate:{}", updated);
                                             if (updated != null) {
                                                 list.addJob(updateJobWrapperInfo(jobExecute));
                                                 jobMap.put(jobInfo, list);
-//                                                logger.debug("addJob:{}", list);
                                             }
                                             if(list.checkJob()==null){
                                                 jobMap.remove(jobInfo);
                                             }
-//                                            logger.debug("2");
                                             continue;
                                         }
 
